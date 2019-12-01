@@ -27,7 +27,7 @@ import com.biblioteca.springboot.backend.models.services.ILibroService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/biblio/Libros")
+@RequestMapping("/biblio/libros")
 public class LibroRestController {
 	
 	@Autowired
@@ -81,7 +81,10 @@ public class LibroRestController {
 			return GlobalMessage.notFound();
 		}
 		try {
-			libroActual.setId_libro(libro.getId_libro());			
+			libroActual.setIsbn(libro.getIsbn());			
+			libroActual.setEditorial(libro.getEditorial());	
+			libroActual.setAutor(libro.getAutor());	
+			libroActual.setMaterialesBibliograficos(libro.getMaterialesBibliograficos());	
 			libroUpdated = principalService.save(libroActual);
 		} catch(DataAccessException e) {
 			return GlobalMessage.internalServerError();

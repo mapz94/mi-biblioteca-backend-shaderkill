@@ -27,7 +27,7 @@ import com.biblioteca.springboot.backend.models.services.IMultaService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/biblio/Multas")
+@RequestMapping("/biblio/multas")
 public class MultaRestController {
 	
 	@Autowired
@@ -80,6 +80,10 @@ public class MultaRestController {
 			return GlobalMessage.notFound();
 		}
 		try {		
+			multaActual.setPrestamo(multa.getPrestamo());
+			multaActual.setMonto(multa.getMonto());
+			multaActual.setEstadoMulta(multa.getEstadoMulta());
+			multaActual.setFechaCancelacion(multa.getFechaCancelacion());
 			multaUpdated = principalService.save(multaActual);
 		} catch(DataAccessException e) {
 			return GlobalMessage.internalServerError();

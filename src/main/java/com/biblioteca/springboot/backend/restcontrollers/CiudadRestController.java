@@ -27,7 +27,7 @@ import com.biblioteca.springboot.backend.models.services.ICiudadService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/biblio/Ciudades")
+@RequestMapping("/biblio/ciudades")
 public class CiudadRestController {
 	
 	@Autowired
@@ -80,6 +80,8 @@ public class CiudadRestController {
 			return GlobalMessage.notFound();
 		}
 		try {		
+			ciudadActual.setNombre(ciudad.getNombre());
+			ciudadActual.setIdPais(ciudad.getIdPais());
 			ciudadUpdated = principalService.save(ciudadActual);
 		} catch(DataAccessException e) {
 			return GlobalMessage.internalServerError();

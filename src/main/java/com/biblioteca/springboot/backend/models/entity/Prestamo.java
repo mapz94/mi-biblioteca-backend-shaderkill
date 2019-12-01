@@ -35,8 +35,79 @@ public class Prestamo implements Serializable {
 	@Column(nullable=false, name="fecha_entrega")
 	private Calendar fechaEntrega;
 
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private Prestamo prestamo;
+	
+
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+	public Socio getSocio() {
+		return socio;
+	}
+
+
+	public void setSocio(Socio socio) {
+		this.socio = socio;
+	}
+
+
+	public MaterialBibliografico getMaterialBibliografico() {
+		return materialBibliografico;
+	}
+
+
+	public void setMaterialBibliografico(MaterialBibliografico materialBibliografico) {
+		this.materialBibliografico = materialBibliografico;
+	}
+
+
+	public Calendar getFechaPrestamo() {
+		return fechaPrestamo;
+	}
+
+
+	public void setFechaPrestamo(Calendar fechaPrestamo) {
+		this.fechaPrestamo = fechaPrestamo;
+	}
+
+
+	public Calendar getFechaVencimiento() {
+		return fechaVencimiento;
+	}
+
+
+	public void setFechaVencimiento(Calendar fechaVencimiento) {
+		this.fechaVencimiento = fechaVencimiento;
+	}
+
+
+	public Calendar getFechaEntrega() {
+		return fechaEntrega;
+	}
+
+
+	public void setFechaEntrega(Calendar fechaEntrega) {
+		this.fechaEntrega = fechaEntrega;
+	}
+
+
+	public Prestamo getPrestamo() {
+		return prestamo;
+	}
+
+
+	public void setPrestamo(Prestamo prestamo) {
+		this.prestamo = prestamo;
+	}
+
 
 	private static final long serialVersionUID = 1L;
 }

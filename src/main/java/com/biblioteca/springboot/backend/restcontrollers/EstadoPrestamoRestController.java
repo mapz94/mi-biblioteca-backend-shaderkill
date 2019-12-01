@@ -79,7 +79,8 @@ public class EstadoPrestamoRestController {
 		if ( estado_prestamoActual == null ) {
 			return GlobalMessage.notFound();
 		}
-		try {		
+		try {
+			estado_prestamoActual.setEstado(estado_prestamo.getEstado());
 			estado_prestamoUpdated = principalService.save(estado_prestamoActual);
 		} catch(DataAccessException e) {
 			return GlobalMessage.internalServerError();

@@ -27,7 +27,7 @@ import com.biblioteca.springboot.backend.models.services.IPaisService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/biblio/Pais")
+@RequestMapping("/biblio/paises")
 public class PaisRestController {
 	
 	@Autowired
@@ -80,6 +80,7 @@ public class PaisRestController {
 			return GlobalMessage.notFound();
 		}
 		try {		
+			paisActual.setNombre(pais.getNombre());
 			paisUpdated = principalService.save(paisActual);
 		} catch(DataAccessException e) {
 			return GlobalMessage.internalServerError();

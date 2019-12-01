@@ -23,6 +23,7 @@ public class Multa implements Serializable {
 	@Column(nullable=false)
 	private Prestamo prestamo;
 
+
 	@Column(nullable=false)
 	private long monto;
 
@@ -31,6 +32,47 @@ public class Multa implements Serializable {
 
 	@Column(nullable=false, name="fecha_cancelacion")
 	private Calendar fechaCancelacion;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Prestamo getPrestamo() {
+		return prestamo;
+	}
+
+	public void setPrestamo(Prestamo prestamo) {
+		this.prestamo = prestamo;
+	}
+
+	public long getMonto() {
+		return monto;
+	}
+
+	public void setMonto(long monto) {
+		this.monto = monto;
+	}
+
+	public EstadoMulta getEstadoMulta() {
+		return estadoMulta;
+	}
+
+	public void setEstadoMulta(EstadoMulta estadoMulta) {
+		this.estadoMulta = estadoMulta;
+	}
+
+	public Calendar getFechaCancelacion() {
+		return fechaCancelacion;
+	}
+
+	public void setFechaCancelacion(Calendar fechaCancelacion) {
+		this.fechaCancelacion = fechaCancelacion;
+	}
+
 
 	private static final long serialVersionUID = 1L;
 }

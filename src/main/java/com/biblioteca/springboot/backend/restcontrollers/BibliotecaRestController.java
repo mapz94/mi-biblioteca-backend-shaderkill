@@ -27,7 +27,7 @@ import com.biblioteca.springboot.backend.models.services.IBibliotecaService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/biblio/Bibliotecas")
+@RequestMapping("/biblio/bibliotecas")
 public class BibliotecaRestController {
 	
 	@Autowired
@@ -84,7 +84,8 @@ public class BibliotecaRestController {
 			bibliotecaActual.setIdMaterial(biblioteca.getIdMaterial());
 			bibliotecaActual.setNombre(biblioteca.getNombre());
 			bibliotecaActual.setDireccion(biblioteca.getDireccion());
-			
+			bibliotecaActual.setIdCiudad(biblioteca.getIdCiudad());
+			bibliotecaActual.setIdPais(biblioteca.getIdPais());
 			bibliotecaUpdated = principalService.save(bibliotecaActual);
 		} catch(DataAccessException e) {
 			return GlobalMessage.internalServerError();

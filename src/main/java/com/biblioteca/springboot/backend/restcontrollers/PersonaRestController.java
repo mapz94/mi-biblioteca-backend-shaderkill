@@ -27,7 +27,7 @@ import com.biblioteca.springboot.backend.models.services.IPersonaService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/biblio/Personas")
+@RequestMapping("/biblio/personas")
 public class PersonaRestController {
 	
 	@Autowired
@@ -80,6 +80,10 @@ public class PersonaRestController {
 			return GlobalMessage.notFound();
 		}
 		try {		
+			personaActual.setNombre(persona.getNombre());
+			personaActual.setApellidoPaterno(persona.getApellidoPaterno());
+			personaActual.setApellidoMaterno(persona.getApellidoMaterno());
+			personaActual.setRut(persona.getRut());
 			personaUpdated = principalService.save(personaActual);
 		} catch(DataAccessException e) {
 			return GlobalMessage.internalServerError();

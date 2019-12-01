@@ -27,7 +27,7 @@ import com.biblioteca.springboot.backend.models.services.IProyectoService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/biblio/Proyectos")
+@RequestMapping("/biblio/proyectos")
 public class ProyectoRestController {
 	
 	@Autowired
@@ -80,7 +80,8 @@ public class ProyectoRestController {
 			return GlobalMessage.notFound();
 		}
 		try {
-			//TODO: Obtener los datos de MaterialBibliografico		
+			proyectoActual.setAutor(proyecto.getAutor());
+			proyectoActual.setMaterialesBibliograficos(proyecto.getMaterialesBibliograficos());
 			proyectoUpdated = principalService.save(proyectoActual);
 		} catch(DataAccessException e) {
 			return GlobalMessage.internalServerError();

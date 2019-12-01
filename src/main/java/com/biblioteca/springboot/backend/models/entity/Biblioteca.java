@@ -19,7 +19,7 @@ public class Biblioteca implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private String idMaterial;
 
 	private String nombre;

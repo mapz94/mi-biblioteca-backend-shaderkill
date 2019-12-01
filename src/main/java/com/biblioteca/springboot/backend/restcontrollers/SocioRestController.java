@@ -1,5 +1,5 @@
 package com.biblioteca.springboot.backend.restcontrollers;
-
+ 
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
@@ -32,7 +32,7 @@ import com.biblioteca.springboot.backend.models.services.ISocioService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/biblio")
+@RequestMapping("/biblio/socios")
 public class SocioRestController {
 	
 	@Autowired
@@ -41,12 +41,12 @@ public class SocioRestController {
 	@Autowired
 	private IUploadFileService uploadService;
 	
-	@GetMapping("/socios")
+	@GetMapping({"","/"})
 	public List<Socio> index() {
 		return socioService.findAll();
 	}
 	
-	@GetMapping("/socios/{id}")
+	@GetMapping({"/{id}","/{id}/"})
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		Socio socioSearch = null;
 		Map<String, Object> response = new HashMap<>();
@@ -63,7 +63,7 @@ public class SocioRestController {
 		return new ResponseEntity<Socio>(socioSearch, HttpStatus.OK);
 	}
 	
-	@PostMapping("/socios")
+	@PostMapping({"/","" })
 	public ResponseEntity<?> create(@RequestBody Socio socio) {
 		Socio socioCreated = null;
 		Map<String, Object> response = new HashMap<>();
@@ -77,7 +77,7 @@ public class SocioRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	@PutMapping("/socios/{id}")
+	@PutMapping({"/{id}","/{id}/"})
 	public ResponseEntity<?> update(@RequestBody Socio socio, @PathVariable Long id) {
 		Socio socioActual = socioService.findById(id);
 		Socio socioUpdated = null;
@@ -99,7 +99,7 @@ public class SocioRestController {
 		
 	}
 	
-	@DeleteMapping("/socios/{id}")
+	@DeleteMapping({"/{id}","/{id}/"})
 	public ResponseEntity<?> delete(@PathVariable Long id) {
 		Map<String, Object> response = new HashMap<>();
 		try {
@@ -110,7 +110,7 @@ public class SocioRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
-	@PostMapping("/socios/upload")
+	@PostMapping("/upload")
 	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id ) {
 		Map<String, Object> response = new HashMap<>();
 		

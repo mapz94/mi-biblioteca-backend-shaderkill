@@ -21,27 +21,27 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 import com.biblioteca.springboot.backend.GlobalMessage;
-import com.biblioteca.springboot.backend.models.entity.EstadoMulta;
-import com.biblioteca.springboot.backend.models.services.IEstadoMultaService;
+import com.biblioteca.springboot.backend.models.entity.Prestamo;
+import com.biblioteca.springboot.backend.models.services.IPrestamoService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/biblio/estado_multas")
-public class EstadoMultaRestController {
+@RequestMapping("/biblio/prestamos")
+public class PrestamoRestController {
 	
 	@Autowired
-	private IEstadoMultaService principalService;
+	private IPrestamoService principalService;
 	
 	
 	@GetMapping({"","/"})
-	public List<EstadoMulta> index() {
+	public List<Prestamo> index() {
 		return principalService.findAll();
 	}
 	
 	@GetMapping({"/{id}","/{id}/"})
 	public ResponseEntity<?> show(@PathVariable Long id) {
-		EstadoMulta objectSearch = null;
+		Prestamo objectSearch = null;
 		Map<String, Object> response = new HashMap<>();
 		try { 
 			objectSearch = principalService.findById(id);
@@ -53,12 +53,12 @@ public class EstadoMultaRestController {
 		if ( objectSearch == null ) {
 			return GlobalMessage.notFound();
 		}
-		return new ResponseEntity<EstadoMulta>(objectSearch, HttpStatus.OK);
+		return new ResponseEntity<Prestamo>(objectSearch, HttpStatus.OK);
 	}
 	
 	@PostMapping({"/","" })
-	public ResponseEntity<?> create(@RequestBody EstadoMulta objectRefered) {
-		EstadoMulta objectCreated = null;
+	public ResponseEntity<?> create(@RequestBody Prestamo objectRefered) {
+		Prestamo objectCreated = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
 			objectCreated = principalService.save(objectRefered);
@@ -72,20 +72,25 @@ public class EstadoMultaRestController {
 	
 	
 	@PutMapping({"/{id}","/{id}/"})
-	public ResponseEntity<?> update(@RequestBody EstadoMulta estado_multa, @PathVariable Long id) {
-		EstadoMulta estado_multaActual = principalService.findById(id);
-		EstadoMulta estado_multaUpdated = null;
+	public ResponseEntity<?> update(@RequestBody Prestamo prestamo, @PathVariable Long id) {
+		Prestamo prestamoActual = principalService.findById(id);
+		Prestamo prestamoUpdated = null;
 		Map<String, Object> response = new HashMap<>();
-		if ( estado_multaActual == null ) {
+		if ( prestamoActual == null ) {
 			return GlobalMessage.notFound();
 		}
 		try {		
-			estado_multaActual.setEstado(estado_multa.getEstado());
-			estado_multaUpdated = principalService.save(estado_multaActual);
+			prestamoActual.setSocio(prestamo.getSocio());
+			prestamoActual.setMaterialBibliografico(prestamo.getMaterialBibliografico());
+			prestamoActual.setFechaPrestamo(prestamo.getFechaPrestamo());
+			prestamoActual.setFechaVencimiento(prestamo.getFechaVencimiento());
+			prestamoActual.setFechaEntrega(prestamo.getFechaEntrega());
+			prestamoActual.setPrestamo(prestamo.getPrestamo());
+			prestamoUpdated = principalService.save(prestamoActual);
 		} catch(DataAccessException e) {
 			return GlobalMessage.internalServerError();
 		}
-		response.put("data", estado_multaUpdated);
+		response.put("data", prestamoUpdated);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 		
 	}

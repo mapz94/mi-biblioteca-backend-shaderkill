@@ -27,7 +27,7 @@ import com.biblioteca.springboot.backend.models.services.IRevistaService;
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/biblio/Revistas")
+@RequestMapping("/biblio/revistas")
 public class RevistaRestController {
 	
 	@Autowired
@@ -80,7 +80,8 @@ public class RevistaRestController {
 			return GlobalMessage.notFound();
 		}
 		try {
-			//TODO: Obtener los datos de MaterialBibliografico		
+			revistaActual.setProveedor(revista.getProveedor());
+			revistaActual.setMaterialesBibliograficos(revista.getMaterialesBibliograficos());
 			revistaUpdated = principalService.save(revistaActual);
 		} catch(DataAccessException e) {
 			return GlobalMessage.internalServerError();
