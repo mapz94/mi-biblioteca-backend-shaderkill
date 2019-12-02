@@ -36,6 +36,12 @@ public class MaterialBibliografico implements Serializable {
 	@ManyToMany(mappedBy = "materialesBibliograficos")
 	private List<Libro> libros;
 	
+	@ManyToMany(mappedBy = "materialesBibliograficos")
+	private List<Proyecto> proyectos;
+	
+	@ManyToMany(mappedBy = "materialesBibliograficos")
+	private List<Revista> revistas;
+	
 	public List<Libro> getLibros() {
 		return libros;
 	}
