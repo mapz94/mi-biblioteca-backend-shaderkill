@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -31,11 +32,11 @@ public class Socio implements Serializable {
 	private String imgAvatar;
 
 	@ManyToOne
-	@Column(nullable=false)
+	@JoinColumn(nullable=false)
 	private Biblioteca biblioteca;
 
 	@OneToOne
-	@Column(nullable=false)
+	@JoinColumn(nullable=false)
 	private Persona persona;
 	
 	public Socio() {}
