@@ -14,15 +14,15 @@ import javax.persistence.Table;
 @Entity
 @Table(name="ciudad")
 public class Ciudad implements Serializable {
-	
+	 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
-	private String nombreCiudad;
+	private String nombre;
 
 	@Column(nullable=false)
-	private String idPais;
+	private Pais pais;
 
 	public Long getId() {
 		return id;
@@ -33,19 +33,19 @@ public class Ciudad implements Serializable {
 	}
 
 	public String getNombre() {
-		return nombreCiudad;
+		return nombre;
 	}
 
-	public void setNombre(String nombreCiudad) {
-		this.nombreCiudad = nombreCiudad;
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
 	}
 
-	public String getIdPais() {
-		return idPais;
+	public Pais getPais() {
+		return pais;
 	}
 
-	public void setIdPais(String idPais) {
-		this.idPais = idPais;
+	public void setPais(Pais pais) {
+		this.pais = pais;
 	}
 
 	private static final long serialVersionUID = 1L;

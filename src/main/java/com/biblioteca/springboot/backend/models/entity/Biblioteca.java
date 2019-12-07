@@ -28,12 +28,10 @@ public class Biblioteca implements Serializable {
 
 	private String direccion;
 
-	@OneToMany
-	@JoinColumn(nullable=false, name="id_ciudad")
+	@Column(nullable=false)
 	private Ciudad ciudad;
 
-	@OneToMany
-	@JoinColumn(nullable=false, name="id_pais")
+	@Column(nullable=false)
 	private Pais pais;
 	
 	public Biblioteca() {}

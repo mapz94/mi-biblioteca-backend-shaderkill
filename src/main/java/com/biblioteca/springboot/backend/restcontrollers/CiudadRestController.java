@@ -81,7 +81,7 @@ public class CiudadRestController {
 		}
 		try {		
 			ciudadActual.setNombre(ciudad.getNombre());
-			ciudadActual.setIdPais(ciudad.getIdPais());
+			ciudadActual.setPais(ciudad.getPais());
 			ciudadUpdated = principalService.save(ciudadActual);
 		} catch(DataAccessException e) {
 			return GlobalMessage.internalServerError();

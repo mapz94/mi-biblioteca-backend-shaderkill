@@ -31,12 +31,10 @@ public class Socio implements Serializable {
 	@Column(name="img_avatar")
 	private String imgAvatar;
 
-	@ManyToOne
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private Biblioteca biblioteca;
 
-	@OneToOne
-	@JoinColumn(nullable=false)
+	@Column(nullable=false)
 	private Persona persona;
 	
 	public Socio() {}
