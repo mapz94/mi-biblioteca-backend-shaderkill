@@ -31,8 +31,6 @@ public class Biblioteca implements Serializable {
 	@Column(nullable=false)
 	private Ciudad ciudad;
 
-	@Column(nullable=false)
-	private Pais pais;
 	
 	public Biblioteca() {}
 
@@ -76,13 +74,6 @@ public class Biblioteca implements Serializable {
 		this.ciudad = ciudad;
 	}
 
-	public Pais getPais() {
-		return pais;
-	}
-
-	public void setPais(Pais pais) {
-		this.pais = pais;
-	}
 
 	private static final long serialVersionUID = 1L;
 }

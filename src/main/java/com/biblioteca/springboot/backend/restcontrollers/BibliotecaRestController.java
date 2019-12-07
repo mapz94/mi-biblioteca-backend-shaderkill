@@ -85,7 +85,6 @@ public class BibliotecaRestController {
 			bibliotecaActual.setNombre(biblioteca.getNombre());
 			bibliotecaActual.setDireccion(biblioteca.getDireccion());
 			bibliotecaActual.setCiudad(biblioteca.getCiudad());
-			bibliotecaActual.setPais(biblioteca.getPais());
 			bibliotecaUpdated = principalService.save(bibliotecaActual);
 		} catch(DataAccessException e) {
 			return GlobalMessage.internalServerError();
