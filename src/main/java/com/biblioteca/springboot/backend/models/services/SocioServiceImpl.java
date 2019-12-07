@@ -1,5 +1,5 @@
 package com.biblioteca.springboot.backend.models.services;
-
+ 
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,6 +42,11 @@ public class SocioServiceImpl implements ISocioService {
 	public void delete(Long id) {
 		
 		socioDao.deleteById(id);
+	}
+
+	@Override
+	public boolean validateSocio(String email, String password) {
+		return socioDao.validateSocio(email, password) ? true:false;
 	}
 	
 }

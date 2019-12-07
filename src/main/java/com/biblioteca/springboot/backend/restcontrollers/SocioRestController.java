@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -72,9 +73,22 @@ public class SocioRestController {
 		} catch(DataAccessException e) {
 			return GlobalMessage.internalServerError();
 		}
-		response.put("mensaje", "El cliente ha sido creado con éxito!.");
+		response.put("mensaje", "El socio ha sido creado con éxito!.");
 		response.put("socio", socioCreated);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+	}
+	
+	@PostMapping({"/login", "/login/" })
+	public ResponseEntity<?> login(@RequestHeader (name = "email") String email, @RequestHeader (name = "password") String password ) {
+		Map<String, Object> response = new HashMap<>();
+		try {
+			if(socioService.validateSocio(email, password) == false) {
+				response.put("mensaje", "Credenciales invalidas.");
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.UNAUTHORIZED);
+			} else return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+		} catch(DataAccessException e) {
+			return GlobalMessage.internalServerError();
+		}
 	}
 	
 	@PutMapping({"/{id}","/{id}/"})

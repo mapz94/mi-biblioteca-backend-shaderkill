@@ -12,5 +12,7 @@ public interface ISocioService {
 	public Socio save(Socio user);
 	
 	public void delete(Long id);
+	
+	public boolean validateSocio(String email, String password);
 
 }
