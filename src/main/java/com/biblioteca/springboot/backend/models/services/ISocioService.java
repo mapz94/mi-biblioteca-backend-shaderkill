@@ -9,10 +9,13 @@ public interface ISocioService {
 	
 	public Socio findById(Long id);
 	
+	public Socio findByEmail(String email);
+	
+	public Socio findByPassword(String password);
+	
 	public Socio save(Socio user);
 	
 	public void delete(Long id);
 	
-	public Socio validateSocio(String email, String password);
 
 }

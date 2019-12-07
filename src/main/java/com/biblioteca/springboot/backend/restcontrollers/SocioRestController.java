@@ -82,10 +82,12 @@ public class SocioRestController {
 	public ResponseEntity<?> login(@RequestHeader(name = "email") String email,
 			@RequestHeader(name = "password") String password) {
 		try {
-			if (socioService.validateSocio(email, password) == null)
-				return new ResponseEntity<HttpStatus>( HttpStatus.UNAUTHORIZED);
-			else
+			Socio socio = socioService.findByEmail(email);
+			if (socio == null)
+				return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
+			if (socio.getPassword().equals(password))
 				return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+			return new ResponseEntity<HttpStatus>( HttpStatus.UNAUTHORIZED);
 		} catch (DataAccessException e) {
 			return GlobalMessage.internalServerError();
 		}

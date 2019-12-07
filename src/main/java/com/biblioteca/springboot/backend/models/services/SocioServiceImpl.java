@@ -45,8 +45,14 @@ public class SocioServiceImpl implements ISocioService {
 	}
 
 	@Override
-	public Socio validateSocio(String email, String password) {
-		return socioDao.validateSocio(email, password);
+	public Socio findByEmail(String email) {
+		return socioDao.findByEmail(email);
 	}
-	
+
+	@Override
+	public Socio findByPassword(String password) {
+		return socioDao.findByPassword(password);
+	}
+
+
 }
