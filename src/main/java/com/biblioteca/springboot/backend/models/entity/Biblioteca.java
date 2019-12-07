@@ -26,10 +26,10 @@ public class Biblioteca implements Serializable {
 
 	private String direccion;
 
-	@Column(nullable=false)
+	@Column(nullable=false, name="id_ciudad")
 	private Ciudad ciudad;
 
-	@Column(nullable=false)
+	@Column(nullable=false, name="id_pais")
 	private Pais pais;
 	
 	public Biblioteca() {}
