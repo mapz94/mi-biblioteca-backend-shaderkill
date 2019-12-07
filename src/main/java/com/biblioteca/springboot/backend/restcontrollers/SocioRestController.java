@@ -48,20 +48,23 @@ public class SocioRestController {
 	}
 
 	@GetMapping({ "/{id}", "/{id}/" })
-	public ResponseEntity<?> show(@PathVariable Long id) {
+	public ResponseEntity<?> show(@PathVariable Long id , @RequestHeader(name = "email") String email,
+			@RequestHeader(name = "password") String password ) {
 		Socio socioSearch = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
-			socioSearch = socioService.findById(id);
+			if (email.equals("administrador@administrador.cl") && password.equals("administrador1234") ) {
+				socioSearch = socioService.findById(id);
+				if (socioSearch == null)
+					return GlobalMessage.notFound();
+				return new ResponseEntity<Socio>(socioSearch, HttpStatus.OK);
+			}
+			return new ResponseEntity<HttpStatus>( HttpStatus.UNAUTHORIZED);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar la busqueda en la base de datos.");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		if (socioSearch == null) {
-			return GlobalMessage.notFound();
-		}
-		return new ResponseEntity<Socio>(socioSearch, HttpStatus.OK);
 	}
 
 	@PostMapping({ "/", "" })
