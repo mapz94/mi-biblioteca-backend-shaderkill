@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /* Clase Usuario, debe coincidir los atributos en el backend y frontend. 
@@ -28,9 +30,11 @@ public class Socio implements Serializable {
 	@Column(name="img_avatar")
 	private String imgAvatar;
 
+	@ManyToOne
 	@Column(nullable=false)
 	private Biblioteca biblioteca;
 
+	@OneToOne
 	@Column(nullable=false)
 	private Persona persona;
 	

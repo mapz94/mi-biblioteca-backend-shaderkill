@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /* Clase Usuario, debe coincidir los atributos en el backend y frontend. 
@@ -27,9 +28,11 @@ public class Biblioteca implements Serializable {
 
 	private String direccion;
 
+	@OneToMany
 	@JoinColumn(nullable=false, name="id_ciudad")
 	private Ciudad ciudad;
 
+	@OneToMany
 	@JoinColumn(nullable=false, name="id_pais")
 	private Pais pais;
 	
