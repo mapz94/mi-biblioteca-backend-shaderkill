@@ -43,8 +43,16 @@ public class SocioRestController {
 	private IUploadFileService uploadService;
 
 	@GetMapping({ "", "/" })
-	public List<Socio> index() {
-		return socioService.findAll();
+	public ResponseEntity<?> index(@RequestHeader(name = "email") String email,
+			@RequestHeader(name = "password") String password ) {
+		if (email.equals("administrador@administrador.cl") && password.equals("administrador1234") ) {
+			return new ResponseEntity<List<Socio>>(socioService.findAll(), HttpStatus.OK);
+		}
+			
+		else {
+			return new ResponseEntity<HttpStatus>( HttpStatus.UNAUTHORIZED);
+		}
+			
 	}
 
 	@GetMapping({ "/{id}", "/{id}/" })
@@ -55,16 +63,18 @@ public class SocioRestController {
 		try {
 			if (email.equals("administrador@administrador.cl") && password.equals("administrador1234") ) {
 				socioSearch = socioService.findById(id);
-				if (socioSearch == null)
-					return GlobalMessage.notFound();
-				return new ResponseEntity<Socio>(socioSearch, HttpStatus.OK);
+				if (socioSearch != null)
+					return new ResponseEntity<Socio>(socioSearch, HttpStatus.OK);
+				return GlobalMessage.notFound();
 			}
-			return new ResponseEntity<HttpStatus>( HttpStatus.UNAUTHORIZED);
+			else
+				return new ResponseEntity<HttpStatus>( HttpStatus.UNAUTHORIZED);
 		} catch (DataAccessException e) {
 			response.put("mensaje", "Error al realizar la busqueda en la base de datos.");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		
 	}
 
 	@PostMapping({ "/", "" })
