@@ -13,6 +13,6 @@ public interface ISocioService {
 	
 	public void delete(Long id);
 	
-	public boolean validateSocio(String email, String password);
+	public Socio validateSocio(String email, String password);
 
 }

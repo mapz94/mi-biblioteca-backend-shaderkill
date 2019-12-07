@@ -45,8 +45,8 @@ public class SocioServiceImpl implements ISocioService {
 	}
 
 	@Override
-	public boolean validateSocio(String email, String password) {
-		return socioDao.validateSocio(email, password) ? true:false;
+	public Socio validateSocio(String email, String password) {
+		return socioDao.validateSocio(email, password);
 	}
 	
 }
