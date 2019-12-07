@@ -24,13 +24,13 @@ public class Biblioteca implements Serializable {
 
 	private String nombre;
 
-	private String Direccion;
+	private String direccion;
 
 	@Column(nullable=false)
-	private String idCiudad;
+	private Ciudad ciudad;
 
 	@Column(nullable=false)
-	private String idPais;
+	private Pais pais;
 	
 	public Biblioteca() {}
 
@@ -59,27 +59,27 @@ public class Biblioteca implements Serializable {
 	}
 
 	public String getDireccion() {
-		return Direccion;
+		return direccion;
 	}
 
 	public void setDireccion(String dirección) {
-		Direccion = dirección;
+		direccion = dirección;
 	}
 
-	public String getIdCiudad() {
-		return idCiudad;
+	public Ciudad getCiudad() {
+		return ciudad;
 	}
 
-	public void setIdCiudad(String idCiudad) {
-		this.idCiudad = idCiudad;
+	public void setCiudad(Ciudad ciudad) {
+		this.ciudad = ciudad;
 	}
 
-	public String getIdPais() {
-		return idPais;
+	public Pais getPais() {
+		return pais;
 	}
 
-	public void setIdPais(String idPais) {
-		this.idPais = idPais;
+	public void setPais(Pais pais) {
+		this.pais = pais;
 	}
 
 	private static final long serialVersionUID = 1L;
