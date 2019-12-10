@@ -46,7 +46,6 @@ public class PersonaRestController {
 		try { 
 			objectSearch = principalService.findById(id);
 		} catch(DataAccessException e) {
-			response.put("mensaje", "Error al realizar la busqueda en la base de datos.");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -64,7 +63,8 @@ public class PersonaRestController {
 			objectCreated = principalService.save(objectRefered);
 
 		} catch(DataAccessException e) {
-			return GlobalMessage.internalServerError();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("data", objectCreated );
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
@@ -86,7 +86,8 @@ public class PersonaRestController {
 			personaActual.setRut(persona.getRut());
 			personaUpdated = principalService.save(personaActual);
 		} catch(DataAccessException e) {
-			return GlobalMessage.internalServerError();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("data", personaUpdated);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
@@ -99,7 +100,8 @@ public class PersonaRestController {
 		try {
 			principalService.delete(id);
 		} catch(DataAccessException e) {
-			return GlobalMessage.notFound();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		} 
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}

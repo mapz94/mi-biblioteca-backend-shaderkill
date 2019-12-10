@@ -64,7 +64,8 @@ public class MultaRestController {
 			objectCreated = principalService.save(objectRefered);
 
 		} catch(DataAccessException e) {
-			return GlobalMessage.internalServerError();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("data", objectCreated );
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
@@ -86,7 +87,8 @@ public class MultaRestController {
 			multaActual.setFechaCancelacion(multa.getFechaCancelacion());
 			multaUpdated = principalService.save(multaActual);
 		} catch(DataAccessException e) {
-			return GlobalMessage.internalServerError();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("data", multaUpdated);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);

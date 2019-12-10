@@ -47,8 +47,7 @@ public class SocioRestController {
 			@RequestHeader(name = "password") String password ) {
 		if (email.equals("administrador@administrador.cl") && password.equals("administrador1234") ) {
 			return new ResponseEntity<List<Socio>>(socioService.findAll(), HttpStatus.OK);
-		}
-			
+		}	
 		else {
 			return new ResponseEntity<HttpStatus>( HttpStatus.UNAUTHORIZED);
 		}
@@ -70,7 +69,6 @@ public class SocioRestController {
 			else
 				return new ResponseEntity<HttpStatus>( HttpStatus.UNAUTHORIZED);
 		} catch (DataAccessException e) {
-			response.put("mensaje", "Error al realizar la busqueda en la base de datos.");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -84,7 +82,8 @@ public class SocioRestController {
 		try {
 			socioCreated = socioService.save(socio);
 		} catch (DataAccessException e) {
-			return GlobalMessage.internalServerError();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("mensaje", "El socio ha sido creado con éxito!.");
 		response.put("socio", socioCreated);
@@ -94,6 +93,7 @@ public class SocioRestController {
 	@PostMapping({ "/login", "/login/" })
 	public ResponseEntity<?> login(@RequestHeader(name = "email") String email,
 			@RequestHeader(name = "password") String password) {
+		Map<String, Object> response = new HashMap<>();
 		try {
 			Socio socio = socioService.findByEmail(email);
 			if (socio == null)
@@ -102,7 +102,8 @@ public class SocioRestController {
 				return new ResponseEntity<HttpStatus>(HttpStatus.OK);
 			return new ResponseEntity<HttpStatus>( HttpStatus.UNAUTHORIZED);
 		} catch (DataAccessException e) {
-			return GlobalMessage.internalServerError();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 
@@ -121,7 +122,8 @@ public class SocioRestController {
 			socioActual.setPersona(socio.getPersona());
 			socioUpdated = socioService.save(socioActual);
 		} catch (DataAccessException e) {
-			return GlobalMessage.internalServerError();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("data", socioUpdated);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
@@ -151,7 +153,8 @@ public class SocioRestController {
 			try {
 				nombreArchivo = uploadService.copiar(archivo);
 			} catch (IOException e) {
-				return GlobalMessage.internalServerError();
+				response.put("error", e.getMessage().concat(": ").concat(e.getMessage()));
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 
 			String avatarAnterior = socio.getImgAvatar();

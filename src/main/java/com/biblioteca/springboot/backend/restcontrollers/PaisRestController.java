@@ -64,7 +64,8 @@ public class PaisRestController {
 			objectCreated = principalService.save(objectRefered);
 
 		} catch(DataAccessException e) {
-			return GlobalMessage.internalServerError();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("data", objectCreated );
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
@@ -83,7 +84,8 @@ public class PaisRestController {
 			paisActual.setNombre(pais.getNombre());
 			paisUpdated = principalService.save(paisActual);
 		} catch(DataAccessException e) {
-			return GlobalMessage.internalServerError();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("data", paisUpdated);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);

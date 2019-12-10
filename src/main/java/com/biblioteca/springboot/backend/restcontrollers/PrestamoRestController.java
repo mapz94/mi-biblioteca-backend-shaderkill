@@ -46,7 +46,6 @@ public class PrestamoRestController {
 		try { 
 			objectSearch = principalService.findById(id);
 		} catch(DataAccessException e) {
-			response.put("mensaje", "Error al realizar la busqueda en la base de datos.");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -64,7 +63,8 @@ public class PrestamoRestController {
 			objectCreated = principalService.save(objectRefered);
 
 		} catch(DataAccessException e) {
-			return GlobalMessage.internalServerError();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("data", objectCreated );
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
@@ -88,7 +88,8 @@ public class PrestamoRestController {
 			prestamoActual.setPrestamo(prestamo.getPrestamo());
 			prestamoUpdated = principalService.save(prestamoActual);
 		} catch(DataAccessException e) {
-			return GlobalMessage.internalServerError();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("data", prestamoUpdated);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);

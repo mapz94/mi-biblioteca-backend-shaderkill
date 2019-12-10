@@ -46,7 +46,6 @@ public class CiudadRestController {
 		try { 
 			objectSearch = principalService.findById(id);
 		} catch(DataAccessException e) {
-			response.put("mensaje", "Error al realizar la busqueda en la base de datos.");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -64,7 +63,8 @@ public class CiudadRestController {
 			objectCreated = principalService.save(objectRefered);
 
 		} catch(DataAccessException e) {
-			return GlobalMessage.internalServerError();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("data", objectCreated );
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
@@ -84,7 +84,8 @@ public class CiudadRestController {
 			ciudadActual.setPais(ciudad.getPais());
 			ciudadUpdated = principalService.save(ciudadActual);
 		} catch(DataAccessException e) {
-			return GlobalMessage.internalServerError();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("data", ciudadUpdated);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);

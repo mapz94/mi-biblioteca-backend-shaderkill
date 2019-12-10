@@ -53,7 +53,6 @@ public class MaterialBibliograficoRestController {
 		try { 
 			objectSearch = principalService.findById(id);
 		} catch(DataAccessException e) {
-			response.put("mensaje", "Error al realizar la busqueda en la base de datos.");
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
@@ -70,7 +69,8 @@ public class MaterialBibliograficoRestController {
 		try {
 			objectCreated = principalService.save(objectRefered);
 		} catch(DataAccessException e) {
-			return GlobalMessage.internalServerError();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		//response.put("mensaje", "El material bibliografico ha sido creado con éxito!.");
 		response.put("data", objectCreated );
@@ -92,7 +92,8 @@ public class MaterialBibliograficoRestController {
 			materialActual.setFechaPublicacion(materialBibliografico.getFechaPublicacion());
 			materialUpdated = principalService.save(materialActual);
 		} catch(DataAccessException e) {
-			return GlobalMessage.internalServerError();
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("data", materialUpdated);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
