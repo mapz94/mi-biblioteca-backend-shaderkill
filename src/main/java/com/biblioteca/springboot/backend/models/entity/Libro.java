@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -25,13 +25,13 @@ public class Libro implements Serializable {
 	@Column(nullable = false, unique = true)
 	private String isbn;
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String editorial;
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private String autor;
 	
-	@ManyToMany
+	@OneToMany
 	@JoinTable(name="materialbibliografico_libros",joinColumns = 
 			@JoinColumn(name="id_libro")
 	, inverseJoinColumns =  @JoinColumn(name="id_materialbibliografico"))

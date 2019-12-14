@@ -10,7 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -25,7 +25,7 @@ public class Proyecto implements Serializable {
 	@Column(nullable = false)
 	private String autor;
 	
-	@ManyToMany
+	@OneToMany
 	@JoinTable(name="materialbibliografico_proyectos",joinColumns = 
 			@JoinColumn(name="id_proyecto")
 	, inverseJoinColumns =  @JoinColumn(name="id_materialbibliografico"))
