@@ -2,15 +2,15 @@ package com.biblioteca.springboot.backend.models.entity;
 
 import java.io.Serializable;
 import java.util.Calendar;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.CascadeType;
 
 @Entity
 @Table(name="materialbibliografico")
@@ -33,21 +33,35 @@ public class MaterialBibliografico implements Serializable {
 	@Column(name="img_biblio")
 	private String imgBiblio;
 	
-	@ManyToMany(mappedBy = "materialesBibliograficos")
-	private List<Libro> libros;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Libro libro;
 	
-	@ManyToMany(mappedBy = "materialesBibliograficos")
-	private List<Proyecto> proyectos;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Revista revista;
 	
-	@ManyToMany(mappedBy = "materialesBibliograficos")
-	private List<Revista> revistas;
+	@ManyToOne(cascade = CascadeType.ALL)
+	private Proyecto proyecto;
 	
-	public List<Libro> getLibros() {
-		return libros;
+	public Libro getLibros() {
+		return libro;
 	}
 
-	public void setLibros(List<Libro> libros) {
-		this.libros = libros;
+	public void setLibro(Libro libro) {
+		this.libro = libro;
+	}
+
+	public void setRevista(Revista revista) {
+		this.revista = revista;
+	}
+	public Revista getRevista() {
+		return revista;
+	}
+
+	public void setProyecto(Proyecto proyecto) {
+		this.proyecto = proyecto;
+	}
+	public Proyecto getProyecto() {
+		return proyecto;
 	}
 
 	public String getImgBiblio() {

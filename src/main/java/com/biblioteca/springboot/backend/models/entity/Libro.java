@@ -1,7 +1,7 @@
 package com.biblioteca.springboot.backend.models.entity;
 
 import java.io.Serializable;
-import java.util.List;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -35,7 +35,7 @@ public class Libro implements Serializable {
 	@JoinTable(name="materialbibliografico_libros",joinColumns = 
 			@JoinColumn(name="id_libro")
 	, inverseJoinColumns =  @JoinColumn(name="id_materialbibliografico"))
-	private List<MaterialBibliografico> materialesBibliograficos;
+	private MaterialBibliografico materialesBibliograficos;
 	
 	public Long getId_libro() {
 		return id_libro;
@@ -69,11 +69,11 @@ public class Libro implements Serializable {
 		this.autor = autor;
 	}
 
-	public List<MaterialBibliografico> getMaterialesBibliograficos() {
+	public MaterialBibliografico getMaterialesBibliograficos() {
 		return materialesBibliograficos;
 	}
 
-	public void setMaterialesBibliograficos(List<MaterialBibliografico> materialesBibliograficos) {
+	public void setMaterialesBibliograficos(MaterialBibliografico materialesBibliograficos) {
 		this.materialesBibliograficos = materialesBibliograficos;
 	}
 
