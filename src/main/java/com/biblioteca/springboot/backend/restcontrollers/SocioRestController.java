@@ -141,8 +141,8 @@ public class SocioRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 
-	@PostMapping("/upload")
-	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id) {
+	@PostMapping("/{id}/upload")
+	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @PathVariable("id") Long id) {
 		Map<String, Object> response = new HashMap<>();
 
 		Socio socio = socioService.findById(id);
@@ -168,7 +168,7 @@ public class SocioRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 
-	@GetMapping("/uploads/img/{nombreAvatar:.+}")
+	@GetMapping("/uploads/img/{nombreAvatar}")
 	public ResponseEntity<Resource> verAvatar(@PathVariable String nombreAvatar) {
 		Resource recurso = null;
 

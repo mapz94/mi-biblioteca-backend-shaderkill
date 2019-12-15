@@ -111,8 +111,8 @@ public class MaterialBibliograficoRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
-	@PostMapping("/materialBibliografico/upload")
-	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @RequestParam("id") Long id ) {
+	@PostMapping("/{id}/upload")
+	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @PathVariable("id") Long id ) {
 		Map<String, Object> response = new HashMap<>();
 		
 		MaterialBibliografico mb = principalService.findById(id);
@@ -130,16 +130,13 @@ public class MaterialBibliograficoRestController {
 			uploadService.eliminar(avatarAnterior);
 			mb.setImgBiblio(nombreArchivo);
 			principalService.save(mb);
-			
 			response.put("Material Bibliografico", mb);
-			response.put("mensaje", "Has subido correctamente la imagen: " + nombreArchivo);
-			
+			response.put("mensaje", "Has subido correctamente la imagen: " + nombreArchivo);	
 		}
-		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/uploads/img/{nombreBiblio:.+}")
+	@GetMapping("/uploads/img/{nombreBiblio}")
 	public ResponseEntity<Resource> verAvatar(@PathVariable String nombreBiblio) {
 		Resource recurso = null;
 		

@@ -18,9 +18,6 @@ public class Biblioteca implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	
-	@Column(nullable=true)
-	private String idMaterial;
 
 	private String nombre;
 
@@ -38,14 +35,6 @@ public class Biblioteca implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getIdMaterial() {
-		return idMaterial;
-	}
-
-	public void setIdMaterial(String idMaterial) {
-		this.idMaterial = idMaterial;
 	}
 
 	public String getNombre() {

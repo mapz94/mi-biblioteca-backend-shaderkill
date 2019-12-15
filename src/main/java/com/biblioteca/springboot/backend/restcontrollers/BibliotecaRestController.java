@@ -81,7 +81,6 @@ public class BibliotecaRestController {
 			return GlobalMessage.notFound();
 		}
 		try {		
-			bibliotecaActual.setIdMaterial(biblioteca.getIdMaterial());
 			bibliotecaActual.setNombre(biblioteca.getNombre());
 			bibliotecaActual.setDireccion(biblioteca.getDireccion());
 			bibliotecaActual.setCiudad(biblioteca.getCiudad());
