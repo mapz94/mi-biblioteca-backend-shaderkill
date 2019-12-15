@@ -90,6 +90,7 @@ public class MaterialBibliograficoRestController {
 			materialActual.setTitulo(materialBibliografico.getTitulo());			
 			materialActual.setCategoria(materialBibliografico.getCategoria());
 			materialActual.setFechaPublicacion(materialBibliografico.getFechaPublicacion());
+			materialActual.setImgBiblio(materialBibliografico.getImgBiblio());
 			materialUpdated = principalService.save(materialActual);
 		} catch(DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -102,7 +103,7 @@ public class MaterialBibliograficoRestController {
 	
 	@DeleteMapping({"/{id}","/{id}/"})
 	public ResponseEntity<?> delete(@PathVariable Long id) {
-		Map<String, Object> response = new HashMap<>();
+		Map<String, Object> response = new HashMap<>(); 
 		try {
 			principalService.delete(id);
 		} catch(DataAccessException e) {
@@ -112,16 +113,16 @@ public class MaterialBibliograficoRestController {
 	}
 	
 	@PostMapping("/{id}/upload")
-	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @PathVariable("id") Long id ) {
+	public ResponseEntity<?> upload(@RequestParam("imgBiblio") MultipartFile imgBiblio, @PathVariable("id") Long id ) {
 		Map<String, Object> response = new HashMap<>();
 		
 		MaterialBibliografico mb = principalService.findById(id);
 		
-		if (!archivo.isEmpty()) {
+		if (!imgBiblio.isEmpty()) {
 			String nombreArchivo = null;
 			
 			try {
-				nombreArchivo = uploadService.copiar(archivo);
+				nombreArchivo = uploadService.copiar(imgBiblio);
 			} catch (IOException e) {
 				return GlobalMessage.internalServerError();
 			}
@@ -136,12 +137,12 @@ public class MaterialBibliograficoRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	@GetMapping("/uploads/img/{nombreBiblio}")
-	public ResponseEntity<Resource> verAvatar(@PathVariable String nombreBiblio) {
+	@GetMapping("/uploads/img/{id}")
+	public ResponseEntity<Resource> verAvatar(@PathVariable String id) {
 		Resource recurso = null;
 		
 		try {
-			recurso = uploadService.cargar(nombreBiblio);
+			recurso = uploadService.cargar(id);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}
