@@ -1,16 +1,14 @@
 package com.biblioteca.springboot.backend.models.services;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.nio.file.Path;
+import java.io.FileNotFoundException;
 
-import org.springframework.core.io.Resource;
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.biblioteca.springboot.backend.models.entity.DBFiles;
 
 public interface IUploadFileService {
 	
-	public Resource cargar(String nombreArchivo) throws MalformedURLException;
-	public String copiar(MultipartFile archivo) throws IOException;
-	public boolean eliminar(String nombreArchivo);
-	public Path getPath(String nombreArchivo);
+	public DBFiles cargar(MultipartFile archivo) throws FileUploadException;
+	public DBFiles getPath(String archivoId) throws FileNotFoundException;
 }

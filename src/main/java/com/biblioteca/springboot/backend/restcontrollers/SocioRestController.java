@@ -1,11 +1,13 @@
 package com.biblioteca.springboot.backend.restcontrollers;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
@@ -24,8 +26,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.biblioteca.springboot.backend.GlobalMessage;
+import com.biblioteca.springboot.backend.models.entity.DBFiles;
 import com.biblioteca.springboot.backend.models.entity.Socio;
 import com.biblioteca.springboot.backend.models.services.IUploadFileService;
 import com.biblioteca.springboot.backend.models.services.ISocioService;
@@ -142,45 +146,39 @@ public class SocioRestController {
 	}
 
 	@PostMapping("/{id}/upload")
-	public ResponseEntity<?> upload(@RequestParam("archivo") MultipartFile archivo, @PathVariable("id") Long id) {
+	public ResponseEntity<?> upload(@RequestParam("imgBiblio") MultipartFile archivo, @PathVariable("id") Long id ) {
 		Map<String, Object> response = new HashMap<>();
-
-		Socio socio = socioService.findById(id);
-
-		if (!archivo.isEmpty()) {
-			String nombreArchivo = null;
-
-			try {
-				nombreArchivo = uploadService.copiar(archivo);
-			} catch (IOException e) {
-				response.put("error", e.getMessage().concat(": ").concat(e.getMessage()));
-				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-			}
-
-			String avatarAnterior = socio.getImgAvatar();
-			uploadService.eliminar(avatarAnterior);
-			socio.setImgAvatar(nombreArchivo);
-			socioService.save(socio);
-
-			response.put("data", socio);
+		
+		try {
+			DBFiles dbFile = uploadService.cargar(archivo);
+			
+			String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/download/").path(dbFile.getId()).toUriString();
+			response.put("data",fileDownloadUri);
+			
+		} catch (FileUploadException e) {
+			response.put("error", e);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
+		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+		 
+		
 	}
 
 	@GetMapping("/uploads/img/{nombreAvatar}")
-	public ResponseEntity<Resource> verAvatar(@PathVariable String nombreAvatar) {
-		Resource recurso = null;
-
+	public ResponseEntity<?> show(@PathVariable String id) {
+		DBFiles recurso = null;
 		try {
-			recurso = uploadService.cargar(nombreAvatar);
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
+			recurso = uploadService.getPath(id);
+		} catch (FileNotFoundException e) {
+			Map<String, Object> response = new HashMap<>();
+			response.put("error", e);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-
+		
 		HttpHeaders cabecera = new HttpHeaders();
-		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFilename() + "\"");
-
-		return new ResponseEntity<Resource>(recurso, cabecera, HttpStatus.OK);
+		cabecera.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFileName() + "\"");
+		
+		return new ResponseEntity<DBFiles>(recurso, cabecera, HttpStatus.OK);
 	}
 }

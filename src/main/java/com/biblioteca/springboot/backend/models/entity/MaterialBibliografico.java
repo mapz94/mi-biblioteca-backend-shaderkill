@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.CascadeType;
@@ -30,8 +31,9 @@ public class MaterialBibliografico implements Serializable {
 	@Column(nullable=true, name = "fecha_publicacion")
 	private Calendar fechaPublicacion = Calendar.getInstance();
 	
+	@Lob
 	@Column(name="img_biblio")
-	private String imgBiblio;
+	private byte[] imgBiblio;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Libro libro;
@@ -64,11 +66,11 @@ public class MaterialBibliografico implements Serializable {
 		return proyecto;
 	}
 
-	public String getImgBiblio() {
+	public byte[] getImgBiblio() {
 		return imgBiblio;
 	}
 
-	public void setImgBiblio(String imgBiblio) {
+	public void setImgBiblio(byte[] imgBiblio) {
 		this.imgBiblio = imgBiblio;
 	}
 
