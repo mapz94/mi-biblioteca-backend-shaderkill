@@ -125,7 +125,7 @@ public class MaterialBibliograficoRestController {
 			DBFiles dbFile = uploadService.cargar(archivo);
 			MaterialBibliografico mb = principalService.findById(id);
 			
-			String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/download/").path(dbFile.getId()).toUriString();
+			String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/biblio/materialbibliografico/download/").path(dbFile.getId()).toUriString();
 			response.put("data",fileDownloadUri);
 			mb.setImgBiblio(fileDownloadUri);
 			principalService.save(mb);
