@@ -156,6 +156,7 @@ public class SocioRestController {
 			String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/download/").path(dbFile.getId()).toUriString();
 			response.put("data",fileDownloadUri);
 			socio.setImgAvatar(fileDownloadUri);
+			socioService.save(socio);
 			
 		} catch (FileUploadException e) {
 			response.put("error", e);
@@ -167,7 +168,7 @@ public class SocioRestController {
 		
 	}
 
-	@GetMapping("/uploads/img/{nombreAvatar}")
+	@GetMapping("/download/{id}")
 	public ResponseEntity<?> show(@PathVariable String id) {
 		DBFiles recurso = null;
 		try {

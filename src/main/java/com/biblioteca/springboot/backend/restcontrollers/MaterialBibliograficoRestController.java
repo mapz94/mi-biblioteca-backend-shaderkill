@@ -126,6 +126,7 @@ public class MaterialBibliograficoRestController {
 			String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/download/").path(dbFile.getId()).toUriString();
 			response.put("data",fileDownloadUri);
 			mb.setImgBiblio(fileDownloadUri);
+			principalService.save(mb);
 			
 		} catch (FileUploadException e) {
 			response.put("error", e);
@@ -136,7 +137,7 @@ public class MaterialBibliograficoRestController {
 		
 	}
 	
-	@GetMapping("/uploads/img/{id}")
+	@GetMapping("/download/{id}")
 	public ResponseEntity<?> show(@PathVariable String id) {
 		DBFiles recurso = null;
 		try {
