@@ -31,9 +31,8 @@ public class MaterialBibliografico implements Serializable {
 	@Column(nullable=true, name = "fecha_publicacion")
 	private Calendar fechaPublicacion = Calendar.getInstance();
 	
-	@Lob
 	@Column(name="img_biblio")
-	private byte[] imgBiblio;
+	private String imgBiblio;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Libro libro;
@@ -66,11 +65,11 @@ public class MaterialBibliografico implements Serializable {
 		return proyecto;
 	}
 
-	public byte[] getImgBiblio() {
+	public String getImgBiblio() {
 		return imgBiblio;
 	}
 
-	public void setImgBiblio(byte[] imgBiblio) {
+	public void setImgBiblio(String imgBiblio) {
 		this.imgBiblio = imgBiblio;
 	}
 

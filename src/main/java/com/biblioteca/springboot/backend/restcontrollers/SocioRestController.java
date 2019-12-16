@@ -151,9 +151,11 @@ public class SocioRestController {
 		
 		try {
 			DBFiles dbFile = uploadService.cargar(archivo);
+			Socio socio = socioService.findById(id);
 			
 			String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/download/").path(dbFile.getId()).toUriString();
 			response.put("data",fileDownloadUri);
+			socio.setImgAvatar(fileDownloadUri);
 			
 		} catch (FileUploadException e) {
 			response.put("error", e);

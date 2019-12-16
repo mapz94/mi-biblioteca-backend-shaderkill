@@ -94,7 +94,6 @@ public class MaterialBibliograficoRestController {
 			materialActual.setTitulo(materialBibliografico.getTitulo());			
 			materialActual.setCategoria(materialBibliografico.getCategoria());
 			materialActual.setFechaPublicacion(materialBibliografico.getFechaPublicacion());
-			materialActual.setImgBiblio(materialBibliografico.getImgBiblio());
 			materialUpdated = principalService.save(materialActual);
 		} catch(DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -122,9 +121,11 @@ public class MaterialBibliograficoRestController {
 		
 		try {
 			DBFiles dbFile = uploadService.cargar(archivo);
+			MaterialBibliografico mb = principalService.findById(id);
 			
 			String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/download/").path(dbFile.getId()).toUriString();
 			response.put("data",fileDownloadUri);
+			mb.setImgBiblio(fileDownloadUri);
 			
 		} catch (FileUploadException e) {
 			response.put("error", e);
@@ -132,8 +133,6 @@ public class MaterialBibliograficoRestController {
 		}
 		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
-		 
-		
 		
 	}
 	
