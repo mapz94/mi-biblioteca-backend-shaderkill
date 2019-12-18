@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -18,9 +19,11 @@ public class Libro implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "LibroId")
+	@Column(name = "id_libro")
 	private Long id;
 
+	@Column(nullable = false)
+	private String titulo;
 
 	@Column(nullable = false, unique = true)
 	private String isbn;
@@ -31,7 +34,8 @@ public class Libro implements Serializable {
 	@Column(nullable = false)
 	private String autor;
 
-	@ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "id_materialbibliografico")
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private MaterialBibliografico materialBibliografico;
 
 	public void setId(Long id) {
@@ -40,6 +44,14 @@ public class Libro implements Serializable {
 
 	public Long getId() {
 		return id;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	public String getIsbn() {
