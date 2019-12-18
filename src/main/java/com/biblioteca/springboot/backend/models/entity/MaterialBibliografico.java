@@ -10,7 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
+ 
 @Entity
 @Table(name="materialbibliografico")
 public class MaterialBibliografico implements Serializable {
@@ -19,6 +19,10 @@ public class MaterialBibliografico implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="id_materialbibliografico")
 	private Long id;
+	
+	@Column(nullable = false)
+	private String titulo;
+
 
 	@Column(nullable=true)
 	private Categoria categoria;
@@ -31,6 +35,14 @@ public class MaterialBibliografico implements Serializable {
 
 	public Long getId() {
 		return id;
+	}
+	
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	public void setId(Long id) {

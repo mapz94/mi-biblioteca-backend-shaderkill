@@ -81,7 +81,6 @@ public class LibroRestController {
 			return GlobalMessage.notFound();
 		}
 		try {
-			libroActual.setTitulo(libro.getTitulo());	
 			libroActual.setIsbn(libro.getIsbn());			
 			libroActual.setEditorial(libro.getEditorial());	
 			libroActual.setAutor(libro.getAutor());		

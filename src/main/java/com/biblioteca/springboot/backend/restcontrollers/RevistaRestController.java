@@ -80,7 +80,6 @@ public class RevistaRestController {
 			return GlobalMessage.notFound();
 		}
 		try {
-			revistaActual.setTitulo(revista.getTitulo());
 			revistaActual.setProveedor(revista.getProveedor());
 			revistaUpdated = principalService.save(revistaActual);
 		} catch(DataAccessException e) {

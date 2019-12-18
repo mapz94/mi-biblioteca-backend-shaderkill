@@ -21,9 +21,6 @@ public class Proyecto implements Serializable {
 	private Long id;
 
 	@Column(nullable = false)
-	private String titulo;
-
-	@Column(nullable = false)
 	private String autor;
 
 	@ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -35,14 +32,6 @@ public class Proyecto implements Serializable {
  
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
 	}
 
 	public String getAutor() {

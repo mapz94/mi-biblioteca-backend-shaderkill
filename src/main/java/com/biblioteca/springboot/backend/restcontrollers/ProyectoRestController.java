@@ -80,7 +80,6 @@ public class ProyectoRestController {
 			return GlobalMessage.notFound();
 		}
 		try {
-			proyectoActual.setTitulo(proyecto.getTitulo());
 			proyectoActual.setAutor(proyecto.getAutor());
 			proyectoUpdated = principalService.save(proyectoActual);
 		} catch(DataAccessException e) {

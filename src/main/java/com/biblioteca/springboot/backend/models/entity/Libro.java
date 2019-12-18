@@ -21,8 +21,6 @@ public class Libro implements Serializable {
 	@Column(name = "LibroId")
 	private Long id;
 
-	@Column(nullable = false)
-	private String titulo;
 
 	@Column(nullable = false, unique = true)
 	private String isbn;
@@ -42,14 +40,6 @@ public class Libro implements Serializable {
 
 	public Long getId() {
 		return id;
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
 	}
 
 	public String getIsbn() {

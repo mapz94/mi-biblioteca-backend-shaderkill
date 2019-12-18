@@ -20,8 +20,6 @@ public class Revista implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
-	private String titulo;
 
 	@Column(nullable = false)
 	private String proveedor;
@@ -35,14 +33,6 @@ public class Revista implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
 	}
 
 	public String getProveedor() {

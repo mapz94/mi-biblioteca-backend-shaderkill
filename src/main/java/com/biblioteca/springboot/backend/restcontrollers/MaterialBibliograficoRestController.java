@@ -97,6 +97,7 @@ public class MaterialBibliograficoRestController {
 			return GlobalMessage.notFound();
 		}
 		try {			
+			materialActual.setTitulo(materialBibliografico.getTitulo());
 			materialActual.setCategoria(materialBibliografico.getCategoria());
 			materialActual.setFechaPublicacion(materialBibliografico.getFechaPublicacion());
 			materialUpdated = principalService.save(materialActual);
