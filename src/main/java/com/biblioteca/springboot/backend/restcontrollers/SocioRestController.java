@@ -1,8 +1,6 @@
 package com.biblioteca.springboot.backend.restcontrollers;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +8,6 @@ import java.util.Map;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,7 +33,7 @@ import com.biblioteca.springboot.backend.models.entity.Socio;
 import com.biblioteca.springboot.backend.models.services.IUploadFileService;
 import com.biblioteca.springboot.backend.models.services.ISocioService;
 
-@CrossOrigin(origins = "*", allowedHeaders = "*")
+@CrossOrigin(origins = "*", allowedHeaders = "*") 
 // @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/biblio/socios")
@@ -49,36 +46,24 @@ public class SocioRestController {
 	private IUploadFileService uploadService;
 
 	@GetMapping({ "", "/" })
-	public ResponseEntity<?> index(@RequestHeader(name = "email") String email,
-			@RequestHeader(name = "password") String password ) {
-		if (email.equals("administrador@administrador.cl") && password.equals("administrador1234") ) {
-			return new ResponseEntity<List<Socio>>(socioService.findAll(), HttpStatus.OK);
-		}	
-		else {
-			return new ResponseEntity<HttpStatus>( HttpStatus.UNAUTHORIZED);
-		}
-			
+	public List<Socio> index() {
+		return socioService.findAll();
 	}
 
 	@GetMapping({ "/{id}", "/{id}/" })
-	public ResponseEntity<?> show(@PathVariable Long id , @RequestHeader(name = "email") String email,
-			@RequestHeader(name = "password") String password ) {
+	public ResponseEntity<?> show(@PathVariable Long id) {
 		Socio socioSearch = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
-			if (email.equals("administrador@administrador.cl") && password.equals("administrador1234") ) {
-				socioSearch = socioService.findById(id);
-				if (socioSearch != null)
-					return new ResponseEntity<Socio>(socioSearch, HttpStatus.OK);
-				return GlobalMessage.notFound();
-			}
+			socioSearch = socioService.findById(id);
+			if (socioSearch != null) 
+				return new ResponseEntity<Socio>(socioSearch, HttpStatus.OK);
 			else
-				return new ResponseEntity<HttpStatus>( HttpStatus.UNAUTHORIZED);
+				return GlobalMessage.notFound();				
 		} catch (DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 	}
 
 	@PostMapping({ "/", "" })
@@ -104,8 +89,10 @@ public class SocioRestController {
 			Socio socio = socioService.findByEmail(email);
 			if (socio == null)
 				return new ResponseEntity<HttpStatus>(HttpStatus.UNAUTHORIZED);
-			if (socio.getPassword().equals(password))
-				return new ResponseEntity<HttpStatus>(HttpStatus.OK);
+			if (socio.getPassword().equals(password)) {
+				response.put("data",socio.getId());
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+			}
 			return new ResponseEntity<HttpStatus>( HttpStatus.UNAUTHORIZED);
 		} catch (DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -164,10 +151,7 @@ public class SocioRestController {
 			response.put("error", e);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
-		 
-		
 	}
 
 	@GetMapping("/download/{id}")
@@ -180,7 +164,6 @@ public class SocioRestController {
 			response.put("error", e);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(recurso.getFileType()))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFileName() + "\"")
 				.body(new ByteArrayResource(recurso.getData()));
