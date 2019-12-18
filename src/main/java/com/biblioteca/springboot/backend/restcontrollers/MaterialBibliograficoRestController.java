@@ -50,15 +50,6 @@ public class MaterialBibliograficoRestController {
 	@Autowired
 	private IUploadFileService uploadService;
 	
-	@Autowired
-	IRevistaService revistaService;
-	
-	@Autowired
-	ILibroService libroService;
-	
-	@Autowired
-	IProyectoService proyectoService;
-	
 	@GetMapping({"","/"})
 	public List<MaterialBibliografico> index() {
 		return principalService.findAll();
@@ -85,18 +76,6 @@ public class MaterialBibliograficoRestController {
 		MaterialBibliografico objectCreated = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
-			if(!objectRefered.getLibro().equals(null)) {
-				Libro libro = objectRefered.getLibro();
-				objectRefered.setLibro(libroService.save(libro));
-			}
-			if(!objectRefered.getRevista().equals(null)) {
-				Revista revista = objectRefered.getRevista();
-				objectRefered.setRevista(revistaService.save(revista));	
-			}
-			if(!objectRefered.getProyecto().equals(null)) {
-				Proyecto proyecto = objectRefered.getProyecto();
-				objectRefered.setProyecto(proyectoService.save(proyecto));
-			}
 			objectCreated = principalService.save(objectRefered);
 			
 		} catch(DataAccessException e) {
@@ -120,36 +99,6 @@ public class MaterialBibliograficoRestController {
 		try {			
 			materialActual.setCategoria(materialBibliografico.getCategoria());
 			materialActual.setFechaPublicacion(materialBibliografico.getFechaPublicacion());
-			if(!materialActual.getLibro().equals(null)) {
-				Libro libro = materialActual.getLibro();
-				if(libro.getId() != null){
-					Libro libroActual= libroService.findById(libro.getId());
-					libroActual.setTitulo(libro.getTitulo());	
-					libroActual.setIsbn(libro.getIsbn());			
-					libroActual.setEditorial(libro.getEditorial());	
-					libroActual.setAutor(libro.getAutor());		
-					materialActual.setLibro(libroService.save(libroActual));
-					}
-			}
-			if(!materialActual.getRevista().equals(null)) {
-				Revista revista = materialActual.getRevista();
-				if(revista.getId() != null){
-					Revista revistaActual = revistaService.findById(revista.getId());
-					revistaActual.setTitulo(revista.getTitulo());
-					revistaActual.setProveedor(revista.getProveedor());
-					materialActual.setRevista(revistaService.save(revistaActual));
-				}
-			}
-			if(!materialActual.getProyecto().equals(null)) {
-				Proyecto proyecto = materialActual.getProyecto();
-				if(proyecto.getId() != null) {
-					Proyecto proyectoActual = proyectoService.findById(proyecto.getId());
-					proyectoActual.setTitulo(proyecto.getTitulo());
-					proyectoActual.setAutor(proyecto.getAutor());
-					materialActual.setProyecto(proyectoService.save(proyectoActual));
-				}
-				
-			}
 			materialUpdated = principalService.save(materialActual);
 		} catch(DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

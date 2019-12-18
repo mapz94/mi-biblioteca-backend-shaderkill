@@ -28,15 +28,6 @@ public class MaterialBibliografico implements Serializable {
 	
 	@Column(name="img_biblio",nullable=true)
 	private String imgBiblio;
-	
-	@Column(name = "mat_libro",nullable=true)
-	private Libro libro;
-	
-	@Column(name = "mat_revista",nullable=true)
-	private Revista revista;
-	
-	@Column(name = "mat_proyecto",nullable=true)
-	private Proyecto proyecto;
 
 	public Long getId() {
 		return id;
@@ -60,28 +51,6 @@ public class MaterialBibliografico implements Serializable {
 
 	public void setFechaPublicacion(Date fechaPublicacion) {
 		this.fechaPublicacion = fechaPublicacion;
-	}
-	
-	public Libro getLibro() {
-		return libro;
-	}
-
-	public void setLibro(Libro libro) {
-		this.libro = libro;
-	}
-
-	public void setRevista(Revista revista) {
-		this.revista = revista;
-	}
-	public Revista getRevista() {
-		return revista;
-	}
-
-	public void setProyecto(Proyecto proyecto) {
-		this.proyecto = proyecto;
-	}
-	public Proyecto getProyecto() {
-		return proyecto;
 	}
 
 	public String getImgBiblio() {

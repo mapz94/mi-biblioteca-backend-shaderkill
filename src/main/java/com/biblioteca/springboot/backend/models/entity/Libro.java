@@ -2,25 +2,26 @@ package com.biblioteca.springboot.backend.models.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-
 @Entity
-@Table(name="libros")
+@Table(name = "libros")
 public class Libro implements Serializable {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "LibroId")
 	private Long id;
-	
 
-	@Column(nullable=false)
+	@Column(nullable = false)
 	private String titulo;
 
 	@Column(nullable = false, unique = true)
@@ -31,7 +32,10 @@ public class Libro implements Serializable {
 
 	@Column(nullable = false)
 	private String autor;
-	
+
+	@ManyToOne(optional = false, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private MaterialBibliografico materialBibliografico;
+
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -39,7 +43,7 @@ public class Libro implements Serializable {
 	public Long getId() {
 		return id;
 	}
-	
+
 	public String getTitulo() {
 		return titulo;
 	}
