@@ -81,10 +81,10 @@ public class LibroRestController {
 			return GlobalMessage.notFound();
 		}
 		try {
+			libroActual.setTitulo(libro.getTitulo());	
 			libroActual.setIsbn(libro.getIsbn());			
 			libroActual.setEditorial(libro.getEditorial());	
-			libroActual.setAutor(libro.getAutor());	
-			libroActual.setMaterialesBibliograficos(libro.getMaterialesBibliograficos());	
+			libroActual.setAutor(libro.getAutor());		
 			libroUpdated = principalService.save(libroActual);
 		} catch(DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

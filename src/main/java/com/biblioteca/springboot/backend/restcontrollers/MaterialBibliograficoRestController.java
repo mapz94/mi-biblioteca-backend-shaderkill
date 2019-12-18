@@ -28,9 +28,15 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.biblioteca.springboot.backend.GlobalMessage;
 import com.biblioteca.springboot.backend.models.entity.DBFiles;
+import com.biblioteca.springboot.backend.models.entity.Libro;
 import com.biblioteca.springboot.backend.models.entity.MaterialBibliografico;
+import com.biblioteca.springboot.backend.models.entity.Proyecto;
+import com.biblioteca.springboot.backend.models.entity.Revista;
 import com.biblioteca.springboot.backend.models.services.IUploadFileService;
+import com.biblioteca.springboot.backend.models.services.ILibroService;
 import com.biblioteca.springboot.backend.models.services.IMaterialBibliograficoService;
+import com.biblioteca.springboot.backend.models.services.IProyectoService;
+import com.biblioteca.springboot.backend.models.services.IRevistaService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
@@ -43,6 +49,15 @@ public class MaterialBibliograficoRestController {
 	
 	@Autowired
 	private IUploadFileService uploadService;
+	
+	@Autowired
+	IRevistaService revistaService;
+	
+	@Autowired
+	ILibroService libroService;
+	
+	@Autowired
+	IProyectoService proyectoService;
 	
 	@GetMapping({"","/"})
 	public List<MaterialBibliografico> index() {
@@ -70,7 +85,20 @@ public class MaterialBibliograficoRestController {
 		MaterialBibliografico objectCreated = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
+			if(!objectRefered.getLibro().equals(null)) {
+				Libro libro = objectRefered.getLibro();
+				objectRefered.setLibro(libroService.save(libro));
+			}
+			if(!objectRefered.getRevista().equals(null)) {
+				Revista revista = objectRefered.getRevista();
+				objectRefered.setRevista(revistaService.save(revista));	
+			}
+			if(!objectRefered.getProyecto().equals(null)) {
+				Proyecto proyecto = objectRefered.getProyecto();
+				objectRefered.setProyecto(proyectoService.save(proyecto));
+			}
 			objectCreated = principalService.save(objectRefered);
+			
 		} catch(DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -80,7 +108,7 @@ public class MaterialBibliograficoRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	
+	 
 	@PutMapping({"/{id}","/{id}/"})
 	public ResponseEntity<?> update(@RequestBody MaterialBibliografico materialBibliografico, @PathVariable Long id) {
 		MaterialBibliografico materialActual = principalService.findById(id);
@@ -89,10 +117,39 @@ public class MaterialBibliograficoRestController {
 		if ( materialActual == null ) {
 			return GlobalMessage.notFound();
 		}
-		try {
-			materialActual.setTitulo(materialBibliografico.getTitulo());			
+		try {			
 			materialActual.setCategoria(materialBibliografico.getCategoria());
 			materialActual.setFechaPublicacion(materialBibliografico.getFechaPublicacion());
+			if(!materialActual.getLibro().equals(null)) {
+				Libro libro = materialActual.getLibro();
+				if(libro.getId() != null){
+					Libro libroActual= libroService.findById(libro.getId());
+					libroActual.setTitulo(libro.getTitulo());	
+					libroActual.setIsbn(libro.getIsbn());			
+					libroActual.setEditorial(libro.getEditorial());	
+					libroActual.setAutor(libro.getAutor());		
+					materialActual.setLibro(libroService.save(libroActual));
+					}
+			}
+			if(!materialActual.getRevista().equals(null)) {
+				Revista revista = materialActual.getRevista();
+				if(revista.getId() != null){
+					Revista revistaActual = revistaService.findById(revista.getId());
+					revistaActual.setTitulo(revista.getTitulo());
+					revistaActual.setProveedor(revista.getProveedor());
+					materialActual.setRevista(revistaService.save(revistaActual));
+				}
+			}
+			if(!materialActual.getProyecto().equals(null)) {
+				Proyecto proyecto = materialActual.getProyecto();
+				if(proyecto.getId() != null) {
+					Proyecto proyectoActual = proyectoService.findById(proyecto.getId());
+					proyectoActual.setTitulo(proyecto.getTitulo());
+					proyectoActual.setAutor(proyecto.getAutor());
+					materialActual.setProyecto(proyectoService.save(proyectoActual));
+				}
+				
+			}
 			materialUpdated = principalService.save(materialActual);
 		} catch(DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -100,7 +157,6 @@ public class MaterialBibliograficoRestController {
 		}
 		response.put("data", materialUpdated);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
-		
 	}
 	
 	@DeleteMapping({"/{id}","/{id}/"})
@@ -131,7 +187,6 @@ public class MaterialBibliograficoRestController {
 			response.put("error", e);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 		
 	}
@@ -146,7 +201,6 @@ public class MaterialBibliograficoRestController {
 			response.put("error", e);
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
-		
 		return ResponseEntity.ok().contentType(MediaType.parseMediaType(recurso.getFileType()))
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + recurso.getFileName() + "\"")
 				.body(new ByteArrayResource(recurso.getData()));

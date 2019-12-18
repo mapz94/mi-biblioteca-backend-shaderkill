@@ -1,7 +1,7 @@
 package com.biblioteca.springboot.backend.models.entity;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,14 +26,14 @@ public class Prestamo implements Serializable {
 	@Column(nullable=false,name="material_bibliografico")
 	private MaterialBibliografico materialBibliografico;
 
-	@Column(nullable=false, name="fecha_prestamo")
-	private Calendar fechaPrestamo;
+	@Column(nullable=true, name="fecha_prestamo")
+	private Date fechaPrestamo;
 
-	@Column(nullable=false, name="fecha_vencimiento")
-	private Calendar fechaVencimiento;
+	@Column(nullable=true, name="fecha_vencimiento")
+	private Date fechaVencimiento;
 
-	@Column(nullable=false, name="fecha_entrega")
-	private Calendar fechaEntrega;
+	@Column(nullable=true, name="fecha_entrega")
+	private Date fechaEntrega;
 
 	@Column(nullable=true)
 	private Prestamo prestamo;
@@ -69,32 +69,32 @@ public class Prestamo implements Serializable {
 	}
 
 
-	public Calendar getFechaPrestamo() {
+	public Date getFechaPrestamo() {
 		return fechaPrestamo;
 	}
 
 
-	public void setFechaPrestamo(Calendar fechaPrestamo) {
+	public void setFechaPrestamo(Date fechaPrestamo) {
 		this.fechaPrestamo = fechaPrestamo;
 	}
 
 
-	public Calendar getFechaVencimiento() {
+	public Date getFechaVencimiento() {
 		return fechaVencimiento;
 	}
 
 
-	public void setFechaVencimiento(Calendar fechaVencimiento) {
+	public void setFechaVencimiento(Date fechaVencimiento) {
 		this.fechaVencimiento = fechaVencimiento;
 	}
 
 
-	public Calendar getFechaEntrega() {
+	public Date getFechaEntrega() {
 		return fechaEntrega;
 	}
 
 
-	public void setFechaEntrega(Calendar fechaEntrega) {
+	public void setFechaEntrega(Date fechaEntrega) {
 		this.fechaEntrega = fechaEntrega;
 	}
 

@@ -1,16 +1,12 @@
 package com.biblioteca.springboot.backend.models.entity;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -20,7 +16,12 @@ public class Libro implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Long id_libro;
+	@Column(name = "LibroId")
+	private Long id;
+	
+
+	@Column(nullable=false)
+	private String titulo;
 
 	@Column(nullable = false, unique = true)
 	private String isbn;
@@ -31,18 +32,20 @@ public class Libro implements Serializable {
 	@Column(nullable = false)
 	private String autor;
 	
-	@OneToMany
-	@JoinTable(name="materialbibliografico_libros",joinColumns = 
-			@JoinColumn(name="id_libro")
-	, inverseJoinColumns =  @JoinColumn(name="id_materialbibliografico"))
-	private List<MaterialBibliografico> materialesBibliograficos;
-	
-	public Long getId_libro() {
-		return id_libro;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public void setId_libro(Long id_libro) {
-		this.id_libro = id_libro;
+	public Long getId() {
+		return id;
+	}
+	
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 
 	public String getIsbn() {
@@ -67,14 +70,6 @@ public class Libro implements Serializable {
 
 	public void setAutor(String autor) {
 		this.autor = autor;
-	}
-
-	public List<MaterialBibliografico> getMaterialesBibliograficos() {
-		return materialesBibliograficos;
-	}
-
-	public void setMaterialesBibliograficos(List<MaterialBibliografico> materialesBibliograficos) {
-		this.materialesBibliograficos = materialesBibliograficos;
 	}
 
 	private static final long serialVersionUID = 1L;

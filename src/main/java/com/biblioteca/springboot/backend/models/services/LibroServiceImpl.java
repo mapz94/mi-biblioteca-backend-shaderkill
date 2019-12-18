@@ -26,14 +26,12 @@ public class LibroServiceImpl implements ILibroService {
 	@Override
 	@Transactional(readOnly = true)
 	public Libro findById(Long id) {
-		
 		return libroDao.findById(id).orElse(null);
 	}
 
 	@Override
 	@Transactional
 	public Libro save(Libro libro) {
-		
 		return libroDao.save(libro);
 	}
 
