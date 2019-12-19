@@ -46,7 +46,7 @@ public class PrestamoRestController {
 		Map<String, Object> response = new HashMap<>();
 		try { 
 			objectSearch = principalService.findById(id);
-			if(objectSearch.getFechaVencimiento().compareTo(Calendar.getInstance().getTime()) > 0){
+			if(objectSearch.getFechaVencimiento().compareTo(Calendar.getInstance().getTime()) < 0){
 				response.put("isDue", true );
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK); 
 			}
