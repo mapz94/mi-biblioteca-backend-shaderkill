@@ -23,7 +23,7 @@ public class Libro implements Serializable {
 	private Long id;
 
 	@Column(nullable = false, unique = true)
-	private String isbn;
+	private String isbn; //isbn, editorial, autor
 
 	@Column(nullable = false)
 	private String editorial;
