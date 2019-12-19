@@ -25,7 +25,7 @@ public class Proyecto implements Serializable {
 	private String autor;
 
 	@JoinColumn(name = "id_materialbibliografico")
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private MaterialBibliografico materialBibliografico;
 
 	public Long getId() {

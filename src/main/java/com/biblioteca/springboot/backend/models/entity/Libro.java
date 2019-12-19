@@ -32,8 +32,9 @@ public class Libro implements Serializable {
 	private String autor;
 
 	@JoinColumn(name = "id_materialbibliografico")
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private MaterialBibliografico materialBibliografico;
+
 
 	public void setId(Long id) {
 		this.id = id;
@@ -65,6 +66,14 @@ public class Libro implements Serializable {
 
 	public void setAutor(String autor) {
 		this.autor = autor;
+	}
+	
+	public MaterialBibliografico getMaterialBibliografico() {
+		return materialBibliografico;
+	}
+
+	public void setMaterialBibliografico(MaterialBibliografico materialBibliografico) {
+		this.materialBibliografico = materialBibliografico;
 	}
 
 	private static final long serialVersionUID = 1L;

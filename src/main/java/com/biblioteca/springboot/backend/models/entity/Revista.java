@@ -25,7 +25,7 @@ public class Revista implements Serializable {
 	private String proveedor;
 
 	@JoinColumn(name = "id_materialbibliografico")
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private MaterialBibliografico materialBibliografico;
 
 	public Long getId() {
