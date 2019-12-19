@@ -1,6 +1,6 @@
 package com.biblioteca.springboot.backend.restcontrollers;
 
-import java.util.Date;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,12 +40,33 @@ public class PrestamoRestController {
 		return principalService.findAll();
 	}
 	
+	@GetMapping({"/{id}/isDue","/{id}/isDue/"})
+	public ResponseEntity<?> isDue(@PathVariable Long id) {
+		Prestamo objectSearch = null;
+		Map<String, Object> response = new HashMap<>();
+		try { 
+			objectSearch = principalService.findById(id);
+			if(objectSearch.getFechaVencimiento().compareTo(Calendar.getInstance().getTime()) > 0){
+				response.put("isDue", true );
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK); 
+			}
+			else {
+				response.put("isDue", false );
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+			}
+		} catch(DataAccessException e) {
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
 	@GetMapping({"/{id}","/{id}/"})
 	public ResponseEntity<?> show(@PathVariable Long id) {
 		Prestamo objectSearch = null;
 		Map<String, Object> response = new HashMap<>();
 		try { 
 			objectSearch = principalService.findById(id);
+
 		} catch(DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -60,10 +81,11 @@ public class PrestamoRestController {
 	public ResponseEntity<?> create(@RequestBody Prestamo objectRefered) {
 		Prestamo objectCreated = null;
 		Map<String, Object> response = new HashMap<>();
-		Date date = new Date();
 		try {
-			objectRefered.setFechaPrestamo(date);
-			objectRefered.setFechaVencimiento(date);
+			Calendar now = Calendar.getInstance();
+			objectRefered.setFechaPrestamo(now.getTime());
+			now.add(Calendar.DATE, 7);
+			objectRefered.setFechaVencimiento(now.getTime());
 			objectCreated = principalService.save(objectRefered);
 
 		} catch(DataAccessException e) {

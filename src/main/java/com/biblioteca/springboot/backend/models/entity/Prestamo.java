@@ -74,8 +74,8 @@ public class Prestamo implements Serializable {
 	}
 
 
-	public void setFechaPrestamo(Date fechaPrestamo) {
-		this.fechaPrestamo = fechaPrestamo;
+	public void setFechaPrestamo(Date fecha) {
+		this.fechaPrestamo = fecha;
 	}
 
 
