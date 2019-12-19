@@ -22,9 +22,6 @@ public class Proyecto implements Serializable {
 	private Long id;
 
 	@Column(nullable = false)
-	private String titulo;
-
-	@Column(nullable = false)
 	private String autor;
 
 	@JoinColumn(name = "id_materialbibliografico")
@@ -37,14 +34,6 @@ public class Proyecto implements Serializable {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public String getTitulo() {
-		return titulo;
-	}
-
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
 	}
 
 	public String getAutor() {
