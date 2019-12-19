@@ -28,15 +28,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.biblioteca.springboot.backend.GlobalMessage;
 import com.biblioteca.springboot.backend.models.entity.DBFiles;
-import com.biblioteca.springboot.backend.models.entity.Libro;
 import com.biblioteca.springboot.backend.models.entity.MaterialBibliografico;
-import com.biblioteca.springboot.backend.models.entity.Proyecto;
-import com.biblioteca.springboot.backend.models.entity.Revista;
 import com.biblioteca.springboot.backend.models.services.IUploadFileService;
-import com.biblioteca.springboot.backend.models.services.ILibroService;
 import com.biblioteca.springboot.backend.models.services.IMaterialBibliograficoService;
-import com.biblioteca.springboot.backend.models.services.IProyectoService;
-import com.biblioteca.springboot.backend.models.services.IRevistaService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
