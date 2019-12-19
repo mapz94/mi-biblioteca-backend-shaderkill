@@ -1,10 +1,7 @@
 package com.biblioteca.springboot.backend.models.entity;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,13 +33,13 @@ public class MaterialBibliografico implements Serializable {
 	private String imgBiblio;
 
 	@OneToMany(mappedBy = "materialBibliografico")
-	private List<Libro> libros = new ArrayList<Libro>();
+	private Libro libro = new Libro();
 
 	@OneToMany(mappedBy = "materialBibliografico")
-	private List<Revista> revistas = new ArrayList<Revista>();
+	private Revista revista = new Revista();
 
 	@OneToMany(mappedBy = "materialBibliografico")
-	private List<Proyecto> proyectos = new ArrayList<Proyecto>();
+	private Proyecto proyecto = new Proyecto();
 
 	public Long getId() {
 		return id;
@@ -86,28 +83,28 @@ public class MaterialBibliografico implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public List<Libro> getLibros() {
-		return libros;
+	public Libro getLibro() {
+		return libro;
 	}
 
-	public void setLibros(List<Libro> libros) {
-		this.libros = libros;
+	public void setLibro(Libro libro) {
+		this.libro = libro;
 	}
 
-	public List<Revista> getRevistas() {
-		return revistas;
+	public Revista getRevista() {
+		return revista;
 	}
 
-	public void setRevistas(List<Revista> revistas) {
-		this.revistas = revistas;
+	public void setRevista(Revista revista) {
+		this.revista = revista;
 	}
 
-	public List<Proyecto> getProyectos() {
-		return proyectos;
+	public Proyecto getProyecto() {
+		return proyecto;
 	}
 
-	public void setProyectos(List<Proyecto> proyectos) {
-		this.proyectos = proyectos;
+	public void setProyecto(Proyecto proyecto) {
+		this.proyecto = proyecto;
 	}
 
 }
