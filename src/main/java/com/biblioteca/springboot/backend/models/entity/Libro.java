@@ -2,15 +2,11 @@ package com.biblioteca.springboot.backend.models.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -23,7 +19,7 @@ public class Libro implements Serializable {
 	private Long id;
 
 	@Column(nullable = false, unique = true)
-	private String isbn; //isbn, editorial, autor
+	private String isbn; // isbn, editorial, autor
 
 	@Column(nullable = false)
 	private String editorial;
@@ -31,10 +27,8 @@ public class Libro implements Serializable {
 	@Column(nullable = false)
 	private String autor;
 
-	@JoinColumn(name = "id_materialbibliografico")
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Column(nullable = false)
 	private MaterialBibliografico materialBibliografico;
-
 
 	public void setId(Long id) {
 		this.id = id;
@@ -67,7 +61,13 @@ public class Libro implements Serializable {
 	public void setAutor(String autor) {
 		this.autor = autor;
 	}
-	
+
+	private static final long serialVersionUID = 1L;
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
 	public MaterialBibliografico getMaterialBibliografico() {
 		return materialBibliografico;
 	}
@@ -75,6 +75,4 @@ public class Libro implements Serializable {
 	public void setMaterialBibliografico(MaterialBibliografico materialBibliografico) {
 		this.materialBibliografico = materialBibliografico;
 	}
-
-	private static final long serialVersionUID = 1L;
 }

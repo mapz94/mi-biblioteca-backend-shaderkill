@@ -2,14 +2,13 @@ package com.biblioteca.springboot.backend.models.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
 
 @Entity
 @Table(name = "materialbibliografico")
@@ -17,10 +16,10 @@ public class MaterialBibliografico implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_materialbibliografico")
+	@Column(name = "id")
 	private Long id;
-	
-	@Column(name = "titutlo", nullable = false)
+
+	@Column(name = "titulo", nullable = false)
 	private String titulo;
 
 	@Column(nullable = true)
@@ -31,15 +30,6 @@ public class MaterialBibliografico implements Serializable {
 
 	@Column(name = "img_biblio", nullable = true)
 	private String imgBiblio;
-	
-	@OneToMany(mappedBy = "materialBibliografico")
-	private Libro libro = new Libro();
-
-	@OneToMany(mappedBy = "materialBibliografico")
-	private Revista revista = new Revista();
-
-	@OneToMany(mappedBy = "materialBibliografico")
-	private Proyecto proyecto = new Proyecto();
 
 	public Long getId() {
 		return id;
@@ -48,7 +38,7 @@ public class MaterialBibliografico implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
+
 	public String getTitulo() {
 		return titulo;
 	}
@@ -80,32 +70,6 @@ public class MaterialBibliografico implements Serializable {
 	public void setImgBiblio(String imgBiblio) {
 		this.imgBiblio = imgBiblio;
 	}
-	
-	public Libro getLibro() {
-		return libro;
-	}
-
-	public void setLibro(Libro libro) {
-		this.libro = libro;
-	}
-
-	public Revista getRevista() {
-		return revista;
-	}
-
-	public void setRevista(Revista revista) {
-		this.revista = revista;
-	}
-
-	public Proyecto getProyecto() {
-		return proyecto;
-	}
-
-	public void setProyecto(Proyecto proyecto) {
-		this.proyecto = proyecto;
-	}
 
 	private static final long serialVersionUID = 1L;
-
-
 }

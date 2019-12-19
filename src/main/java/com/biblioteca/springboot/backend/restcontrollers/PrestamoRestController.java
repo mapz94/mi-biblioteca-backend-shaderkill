@@ -1,5 +1,6 @@
 package com.biblioteca.springboot.backend.restcontrollers;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +60,10 @@ public class PrestamoRestController {
 	public ResponseEntity<?> create(@RequestBody Prestamo objectRefered) {
 		Prestamo objectCreated = null;
 		Map<String, Object> response = new HashMap<>();
+		Date date = new Date();
 		try {
+			objectRefered.setFechaPrestamo(date);
+			objectRefered.setFechaVencimiento(date);
 			objectCreated = principalService.save(objectRefered);
 
 		} catch(DataAccessException e) {

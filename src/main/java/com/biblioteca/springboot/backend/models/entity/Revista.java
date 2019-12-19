@@ -2,15 +2,11 @@ package com.biblioteca.springboot.backend.models.entity;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,8 +20,7 @@ public class Revista implements Serializable {
 	@Column(nullable = false)
 	private String proveedor;
 
-	@JoinColumn(name = "id_materialbibliografico")
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@Column(nullable = false)
 	private MaterialBibliografico materialBibliografico;
 
 	public Long getId() {
@@ -53,4 +48,5 @@ public class Revista implements Serializable {
 	public void setMaterialBibliografico(MaterialBibliografico materialBibliografico) {
 		this.materialBibliografico = materialBibliografico;
 	}
+
 }
