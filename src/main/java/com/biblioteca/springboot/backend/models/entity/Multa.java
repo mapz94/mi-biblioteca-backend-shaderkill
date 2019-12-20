@@ -1,7 +1,7 @@
 package com.biblioteca.springboot.backend.models.entity;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -31,7 +31,7 @@ public class Multa implements Serializable {
 	private EstadoMulta estadoMulta;
 
 	@Column(nullable=false, name="fecha_cancelacion")
-	private Calendar fechaCancelacion;
+	private Date fechaCancelacion;
 	
 	
 	public Long getId() {
@@ -66,11 +66,11 @@ public class Multa implements Serializable {
 		this.estadoMulta = estadoMulta;
 	}
 
-	public Calendar getFechaCancelacion() {
+	public Date getFechaCancelacion() {
 		return fechaCancelacion;
 	}
 
-	public void setFechaCancelacion(Calendar fechaCancelacion) {
+	public void setFechaCancelacion(Date fechaCancelacion) {
 		this.fechaCancelacion = fechaCancelacion;
 	}
 

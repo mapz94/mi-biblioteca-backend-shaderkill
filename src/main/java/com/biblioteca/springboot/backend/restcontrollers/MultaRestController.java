@@ -1,5 +1,6 @@
 package com.biblioteca.springboot.backend.restcontrollers;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,12 +18,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
 import com.biblioteca.springboot.backend.GlobalMessage;
 import com.biblioteca.springboot.backend.models.entity.Multa;
+import com.biblioteca.springboot.backend.models.services.IEstadoMultaService;
 import com.biblioteca.springboot.backend.models.services.IMultaService;
+import com.biblioteca.springboot.backend.models.services.IPrestamoService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
@@ -32,6 +36,12 @@ public class MultaRestController {
 	
 	@Autowired
 	private IMultaService principalService;
+	
+	@Autowired
+	private IPrestamoService prestamoService;
+	
+	@Autowired
+	private IEstadoMultaService estadoMultaService;
 	
 	
 	@GetMapping({"","/"})
@@ -57,12 +67,36 @@ public class MultaRestController {
 	}
 	
 	@PostMapping({"/","" })
-	public ResponseEntity<?> create(@RequestBody Multa objectRefered) {
-		Multa objectCreated = null;
+	public ResponseEntity<?> create(@RequestParam Long prestamo) {
+		Multa objectCreated = new Multa();
 		Map<String, Object> response = new HashMap<>();
 		try {
-			objectCreated = principalService.save(objectRefered);
-
+			objectCreated.setPrestamo(prestamoService.findById(prestamo));
+			objectCreated.setMonto(2000);
+			Long estado = (long) 1;
+			objectCreated.setEstadoMulta(estadoMultaService.findById(estado));
+			//objectCreated.setFechaCancelacion();
+			Multa multa = principalService.save(objectCreated);
+			
+			response.put("multa", multa);
+		} catch(DataAccessException e) {
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put("data", objectCreated );
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+	}
+	
+	@PostMapping({"/","" })
+	public ResponseEntity<?> cancelaMulta(@RequestParam Long prestamo) {
+		Multa objectCreated = new Multa();
+		Map<String, Object> response = new HashMap<>();
+		try {
+			objectCreated.setPrestamo(prestamoService.findById(prestamo));
+			Calendar now = Calendar.getInstance();
+			objectCreated.setFechaCancelacion(now.getTime());
+			Multa multa = principalService.save(objectCreated);
+			response.put("multa", multa);
 		} catch(DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -88,7 +122,7 @@ public class MultaRestController {
 			multaUpdated = principalService.save(multaActual);
 		} catch(DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR); 
 		}
 		response.put("data", multaUpdated);
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);

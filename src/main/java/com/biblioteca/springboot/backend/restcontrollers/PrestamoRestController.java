@@ -32,7 +32,6 @@ import com.biblioteca.springboot.backend.models.services.IPrestamoService;
 import com.biblioteca.springboot.backend.models.services.ISocioService;
 import com.biblioteca.springboot.backend.models.services.IEstadoMultaService;
 import com.biblioteca.springboot.backend.models.services.IMaterialBibliograficoService;
-import com.biblioteca.springboot.backend.models.services.IMultaService;
 
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -53,8 +52,7 @@ public class PrestamoRestController {
 	@Autowired
 	private IMaterialBibliograficoService materialService;
 	
-	@Autowired
-	private IMultaService multaService;
+	
 	
 	
 	@GetMapping({"","/"})  
