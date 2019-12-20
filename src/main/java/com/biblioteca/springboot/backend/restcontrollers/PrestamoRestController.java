@@ -128,7 +128,6 @@ public class PrestamoRestController {
 	@PostMapping({"/entrega/{id}","/entrega/{id}/" })
 	public ResponseEntity<?> entrega(@PathVariable Long id ) {
 		Prestamo prestamoActual = principalService.findById(id);
-		Prestamo prestamoUpdated = null;
 		Map<String, Object> response = new HashMap<>();
 		if ( prestamoActual == null ) {
 			return GlobalMessage.notFound();
@@ -136,9 +135,8 @@ public class PrestamoRestController {
 		try {
 			Calendar now = Calendar.getInstance();
 			prestamoActual.setFechaEntrega(now.getTime());
-			prestamoUpdated = principalService.save(prestamoActual);
+			principalService.save(prestamoActual);
 			response.put("data",prestamoActual.getFechaEntrega());
-			
 		}
 		catch(DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

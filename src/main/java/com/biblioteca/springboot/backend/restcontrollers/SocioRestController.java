@@ -79,8 +79,8 @@ public class SocioRestController {
 			socioSearch = socioService.findById(id);
 			if (socioSearch != null) {
 				List<Prestamo> prestamos = prestamoService.findBySocio(socioSearch);
-				response.put("data", prestamos);
-				return new ResponseEntity<Map<String, Object>>(response ,HttpStatus.CREATED);
+				response.put("prestamos",prestamos);
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 			}
 			else
 				return GlobalMessage.notFound();				

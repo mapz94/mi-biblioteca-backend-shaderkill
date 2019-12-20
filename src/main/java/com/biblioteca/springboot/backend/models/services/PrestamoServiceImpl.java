@@ -43,8 +43,7 @@ public class PrestamoServiceImpl implements IPrestamoService {
 
 	@Override
 	public List<Prestamo> findBySocio(Socio socio) {
-		// TODO Auto-generated method stub
-		return null;
+		return prestamoDao.findBySocio(socio);
 	}
-	
+
 }
