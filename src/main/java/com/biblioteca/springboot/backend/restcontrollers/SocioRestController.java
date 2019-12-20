@@ -111,7 +111,7 @@ public class SocioRestController {
 				ArrayList<Multa> multasSocio = new ArrayList<Multa>();
 				for(int i = 0; i < multas.size(); i++) {
 					if(multas.get(i).getPrestamo().getSocio().getId().equals(id) && 
-					   multas.get(i).getEstadoMulta().equals(estadoMultaService.findById((long)1))) {
+					   multas.get(i).getEstadoMulta().getId().equals((long)1)) {
 					   multasSocio.add(multas.get(i));
 					}
 				}
