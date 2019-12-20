@@ -107,15 +107,14 @@ public class SocioRestController {
 		try {
 			socioSearch = socioService.findById(id);
 			if (socioSearch != null) {
-				List<Prestamo> prestamos = prestamoService.findBySocio(socioSearch);
-				ArrayList<Multa> multas = new ArrayList<Multa>();
-				for(int i = 0; i < prestamos.size(); i++) {
-					Multa multa = (multaService.findByPrestamo(prestamos.get(i)));
-					if(multa.getEstadoMulta().equals(estadoMultaService.findById((long) 1))) {
-						multas.add(multa);
+				List<Multa> multas = multaService.findAll();
+				ArrayList<Multa> multasSocio = new ArrayList<Multa>();
+				for(int i = 0; i < multas.size(); i++) {
+					if(multas.get(i).getPrestamo().getSocio().getId().equals(id)) {
+						multasSocio.add(multas.get(i));
 					}
 				}
-				response.put("multas",multas);
+				response.put("multasSocio",multasSocio);
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 			}
 			else {
