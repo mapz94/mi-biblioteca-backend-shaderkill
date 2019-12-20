@@ -95,6 +95,8 @@ public class MultaRestController {
 			objectCreated = principalService.findById(id);
 			Calendar now = Calendar.getInstance();
 			objectCreated.setFechaCancelacion(now.getTime());
+			Long estado = (long) 2;
+			objectCreated.setEstadoMulta(estadoMultaService.findById(estado));
 			Multa multa = principalService.save(objectCreated);
 			response.put("multa", multa);
 		} catch(DataAccessException e) {

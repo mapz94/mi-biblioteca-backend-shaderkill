@@ -30,7 +30,7 @@ public class Multa implements Serializable {
 	@Column(nullable=false, name="estado_multa")
 	private EstadoMulta estadoMulta;
 
-	@Column(nullable=false, name="fecha_cancelacion")
+	@Column(nullable=true, name="fecha_cancelacion")
 	private Date fechaCancelacion;
 	
 	
