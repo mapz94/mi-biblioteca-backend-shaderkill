@@ -29,9 +29,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.biblioteca.springboot.backend.GlobalMessage;
 import com.biblioteca.springboot.backend.models.entity.DBFiles;
+import com.biblioteca.springboot.backend.models.entity.Multa;
 import com.biblioteca.springboot.backend.models.entity.Prestamo;
 import com.biblioteca.springboot.backend.models.entity.Socio;
 import com.biblioteca.springboot.backend.models.services.IUploadFileService;
+import com.biblioteca.springboot.backend.models.services.IMultaService;
 import com.biblioteca.springboot.backend.models.services.IPrestamoService;
 import com.biblioteca.springboot.backend.models.services.ISocioService;
 
@@ -49,6 +51,9 @@ public class SocioRestController {
 
 	@Autowired
 	private IUploadFileService uploadService;
+	
+	@Autowired
+	private IMultaService multaService;
 
 	@GetMapping({ "", "/" })
 	public List<Socio> index() {
@@ -88,6 +93,26 @@ public class SocioRestController {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@GetMapping({ "/{id}/multas", "/{id}/multas/" })
+	public ResponseEntity<?> getMultas(@PathVariable Long id) {
+		Socio socioSearch = null;
+		Map<String, Object> response = new HashMap<>();
+		try {
+			socioSearch = socioService.findById(id);
+			if (socioSearch != null) {
+				List<Multa> multas = multaService.findBySocio(socioSearch);
+				response.put("multas",multas);
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
+			}
+			else
+				return GlobalMessage.notFound();				
+		} catch (DataAccessException e) {
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
 	}
 
 	@PostMapping({ "/", "" })

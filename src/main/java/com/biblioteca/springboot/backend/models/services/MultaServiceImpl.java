@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.biblioteca.springboot.backend.models.dao.IMultaDao;
 import com.biblioteca.springboot.backend.models.entity.Multa;
+import com.biblioteca.springboot.backend.models.entity.Socio;
 
 
 @Service
@@ -42,6 +43,11 @@ public class MultaServiceImpl implements IMultaService {
 	public void delete(Long id) {
 		
 		multaDao.deleteById(id);
+	}
+
+	@Override
+	public List<Multa> findBySocio(Socio socio) {
+		return multaDao.findBySocio(socio);
 	}
 	
 }
