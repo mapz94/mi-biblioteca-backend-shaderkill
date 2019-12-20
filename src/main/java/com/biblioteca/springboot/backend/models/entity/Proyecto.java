@@ -27,9 +27,9 @@ public class Proyecto implements Serializable {
 	private String autor;
 
 	@OneToOne( optional = true, fetch = FetchType.LAZY, orphanRemoval= true)
-    @JoinTable(name = "materialbibliografico_libro", 
+    @JoinTable(name = "materialbibliografico_proyecto", 
       joinColumns = 
-        { @JoinColumn(name = "entidad_id", referencedColumnName = "id") },
+        { @JoinColumn(name = "proyecto_id", referencedColumnName = "id") },
       inverseJoinColumns = 
         { @JoinColumn(name = "materialbibliografico_id", referencedColumnName = "id") })
 	private MaterialBibliografico materialBibliografico;
