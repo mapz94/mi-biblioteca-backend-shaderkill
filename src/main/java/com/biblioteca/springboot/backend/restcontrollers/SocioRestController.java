@@ -33,6 +33,7 @@ import com.biblioteca.springboot.backend.models.entity.Multa;
 import com.biblioteca.springboot.backend.models.entity.Prestamo;
 import com.biblioteca.springboot.backend.models.entity.Socio;
 import com.biblioteca.springboot.backend.models.services.IUploadFileService;
+import com.biblioteca.springboot.backend.models.services.IEstadoMultaService;
 import com.biblioteca.springboot.backend.models.services.IMultaService;
 import com.biblioteca.springboot.backend.models.services.IPrestamoService;
 import com.biblioteca.springboot.backend.models.services.ISocioService;
@@ -54,6 +55,9 @@ public class SocioRestController {
 	
 	@Autowired
 	private IMultaService multaService;
+	
+	@Autowired
+	private IEstadoMultaService estadoMultaService;
 
 	@GetMapping({ "", "/" })
 	public List<Socio> index() {
@@ -94,7 +98,7 @@ public class SocioRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	/*
+
 	@GetMapping({ "/{id}/multas", "/{id}/multas/" })
 	public ResponseEntity<?> getMultas(@PathVariable Long id) {
 		Socio socioSearch = null;
@@ -102,18 +106,24 @@ public class SocioRestController {
 		try {
 			socioSearch = socioService.findById(id);
 			if (socioSearch != null) {
-				List<Multa> multas = multaService.findBySocio(socioSearch);
+				List<Prestamo> prestamos = prestamoService.findBySocio(socioSearch);
+				List<Multa> multas = null;
+				for(int i = 0; i < prestamos.size(); i++) {
+					multas.add(multaService.findByPrestamo(prestamos.get(i)));
+				}
 				response.put("multas",multas);
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 			}
-			else
-				return GlobalMessage.notFound();				
-		} catch (DataAccessException e) {
-			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			else {
+				return GlobalMessage.notFound();
+				}
+			}
+			catch (DataAccessException e) {
+				response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			}
 		}
 
-	}*/
 
 	@PostMapping({ "/", "" })
 	public ResponseEntity<?> create(@RequestBody Socio socio) {
