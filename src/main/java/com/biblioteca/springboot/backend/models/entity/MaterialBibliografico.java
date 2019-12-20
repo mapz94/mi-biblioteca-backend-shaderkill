@@ -3,6 +3,7 @@ package com.biblioteca.springboot.backend.models.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,13 +32,13 @@ public class MaterialBibliografico implements Serializable {
 	@Column(nullable = true, name = "fecha_publicacion")
 	private Date fechaPublicacion;
 	
-	@OneToOne(mappedBy = "materialBibliografico")
+	@OneToOne(mappedBy = "materialBibliografico",cascade = CascadeType.PERSIST)
 	private Libro libro;
 	
-	@OneToOne(mappedBy = "materialBibliografico")
+	@OneToOne(mappedBy = "materialBibliografico",cascade = CascadeType.PERSIST)
 	private Revista revista;
 	
-	@OneToOne(mappedBy = "materialBibliografico")
+	@OneToOne(mappedBy = "materialBibliografico",cascade = CascadeType.PERSIST)
 	private Proyecto proyecto;
 	
 

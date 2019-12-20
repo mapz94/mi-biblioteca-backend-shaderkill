@@ -32,10 +32,7 @@ public class Libro implements Serializable {
 	@Column(nullable = false)
 	private String autor;
 
-	@OneToOne(cascade = {
-            CascadeType.MERGE,
-            CascadeType.REFRESH,
-            CascadeType.PERSIST}, optional = true, fetch = FetchType.LAZY, orphanRemoval= true)
+	@OneToOne( optional = true, fetch = FetchType.LAZY, orphanRemoval= true)
     @JoinTable(name = "materialbibliografico_libro", 
       joinColumns = 
         { @JoinColumn(name = "entidad_id", referencedColumnName = "id") },
