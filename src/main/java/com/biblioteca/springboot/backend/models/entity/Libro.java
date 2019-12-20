@@ -20,7 +20,7 @@ public class Libro implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "id_libro")
+	@Column(name="id")
 	private Long id;
 
 	@Column(nullable = false, unique = true)
