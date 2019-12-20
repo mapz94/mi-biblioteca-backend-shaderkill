@@ -31,13 +31,13 @@ public class MaterialBibliografico implements Serializable {
 	@Column(nullable = true, name = "fecha_publicacion")
 	private Date fechaPublicacion;
 	
-	@OneToOne(mappedBy = "materialbibliografico", optional = true, orphanRemoval= true, fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "materialBibliografico")
 	private Libro libro;
 	
-	@OneToOne(mappedBy = "materialbibliografico", optional = true, orphanRemoval= true, fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "materialBibliografico")
 	private Revista revista;
 	
-	@OneToOne(mappedBy = "materialbibliografico", optional = true, orphanRemoval= true, fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "materialBibliografico")
 	private Proyecto proyecto;
 	
 
