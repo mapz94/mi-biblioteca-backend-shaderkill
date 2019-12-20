@@ -26,7 +26,10 @@ public class Proyecto implements Serializable {
 	@Column(nullable = false)
 	private String autor;
 
-	@OneToOne(cascade = CascadeType.ALL, optional = true, fetch = FetchType.LAZY, orphanRemoval= true)
+	@OneToOne(cascade = {
+            CascadeType.MERGE,
+            CascadeType.REFRESH
+        }, optional = true, fetch = FetchType.LAZY, orphanRemoval= true)
     @JoinTable(name = "materialbibliografico_libro", 
       joinColumns = 
         { @JoinColumn(name = "entidad_id", referencedColumnName = "id") },
