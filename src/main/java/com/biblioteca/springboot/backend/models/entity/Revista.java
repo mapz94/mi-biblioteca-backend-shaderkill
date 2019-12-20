@@ -5,10 +5,12 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -23,8 +25,12 @@ public class Revista implements Serializable {
 	@Column(nullable = false)
 	private String proveedor;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "material_bibliografico_id", referencedColumnName ="id"  )
+	@OneToOne(cascade = CascadeType.ALL, optional = true, fetch = FetchType.LAZY)
+    @JoinTable(name = "materialbibliografico_revista", 
+      joinColumns = 
+        { @JoinColumn(name = "entidad_id", referencedColumnName = "id") },
+      inverseJoinColumns = 
+        { @JoinColumn(name = "materialbibliografico_id", referencedColumnName = "id") })
 	private MaterialBibliografico materialBibliografico;
 
 	public Long getId() {

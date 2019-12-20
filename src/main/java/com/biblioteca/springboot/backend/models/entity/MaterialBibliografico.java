@@ -5,6 +5,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -30,14 +31,13 @@ public class MaterialBibliografico implements Serializable {
 	@Column(nullable = true, name = "fecha_publicacion")
 	private Date fechaPublicacion;
 	
-
-	@OneToOne(mappedBy = "materialbibliografico")
+	@OneToOne(mappedBy = "materialbibliografico", optional = true, orphanRemoval= true, fetch = FetchType.LAZY)
 	private Libro libro;
 	
-	@OneToOne(mappedBy = "materialbibliografico")
+	@OneToOne(mappedBy = "materialbibliografico", optional = true, orphanRemoval= true, fetch = FetchType.LAZY)
 	private Revista revista;
 	
-	@OneToOne(mappedBy = "materialbibliografico")
+	@OneToOne(mappedBy = "materialbibliografico", optional = true, orphanRemoval= true, fetch = FetchType.LAZY)
 	private Proyecto proyecto;
 	
 
@@ -94,7 +94,8 @@ public class MaterialBibliografico implements Serializable {
 	}
 
 	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;		
+		this.descripcion = descripcion;
+		
 	}
 	
 	public Libro getLibro() {
