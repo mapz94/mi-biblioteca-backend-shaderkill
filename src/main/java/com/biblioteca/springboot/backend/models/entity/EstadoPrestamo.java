@@ -20,7 +20,7 @@ public class EstadoPrestamo implements Serializable {
 	@Column(name="id")
 	private Long id;
 
-	@Column(nullable=false, name="estado_multa")
+	@Column(nullable=false, name="estado_prestamo")
 	private String estado;
 
 	
