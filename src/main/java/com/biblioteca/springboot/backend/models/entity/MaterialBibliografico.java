@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -28,6 +29,17 @@ public class MaterialBibliografico implements Serializable {
 
 	@Column(nullable = true, name = "fecha_publicacion")
 	private Date fechaPublicacion;
+	
+
+	@OneToOne(mappedBy = "materialbibliografico")
+	private Libro libro;
+	
+	@OneToOne(mappedBy = "materialbibliografico")
+	private Revista revista;
+	
+	@OneToOne(mappedBy = "materialbibliografico")
+	private Proyecto proyecto;
+	
 
 	@Column(name = "img_biblio", nullable = true)
 	private String imgBiblio;
@@ -82,7 +94,31 @@ public class MaterialBibliografico implements Serializable {
 	}
 
 	public void setDescripcion(String descripcion) {
-		this.descripcion = descripcion;
+		this.descripcion = descripcion;		
+	}
+	
+	public Libro getLibro() {
+		return libro;
+	}
+
+	public void setLibro(Libro libro) {
+		this.libro = libro;
+	}
+
+	public Revista getRevista() {
+		return revista;
+	}
+
+	public void setRevista(Revista revista) {
+		this.revista = revista;
+	}
+
+	public Proyecto getProyecto() {
+		return proyecto;
+	}
+
+	public void setProyecto(Proyecto proyecto) {
+		this.proyecto = proyecto;
 	}
 	
 	private static final long serialVersionUID = 1L;
