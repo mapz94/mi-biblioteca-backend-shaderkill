@@ -28,8 +28,8 @@ public class Revista implements Serializable {
 
 	@OneToOne(cascade = {
             CascadeType.MERGE,
-            CascadeType.REFRESH
-        }, optional = true, fetch = FetchType.LAZY, orphanRemoval= true)
+            CascadeType.REFRESH,
+            CascadeType.PERSIST}, optional = true, fetch = FetchType.LAZY, orphanRemoval= true)
     @JoinTable(name = "materialbibliografico_revista", 
       joinColumns = 
         { @JoinColumn(name = "entidad_id", referencedColumnName = "id") },
