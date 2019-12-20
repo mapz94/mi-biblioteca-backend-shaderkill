@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.biblioteca.springboot.backend.GlobalMessage;
 import com.biblioteca.springboot.backend.models.entity.Ciudad;
 import com.biblioteca.springboot.backend.models.services.ICiudadService;
+import com.biblioteca.springboot.backend.models.services.IPaisService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
@@ -32,6 +33,9 @@ public class CiudadRestController {
 	
 	@Autowired
 	private ICiudadService principalService;
+	
+	@Autowired
+	private IPaisService paisService;
 	
 	
 	@GetMapping({"","/"})
@@ -60,6 +64,7 @@ public class CiudadRestController {
 		Ciudad objectCreated = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
+			objectRefered.setPais(paisService.findById(objectRefered.getPais().getId()));
 			objectCreated = principalService.save(objectRefered);
 
 		} catch(DataAccessException e) {
@@ -81,7 +86,7 @@ public class CiudadRestController {
 		}
 		try {		
 			ciudadActual.setNombre(ciudad.getNombre());
-			ciudadActual.setPais(ciudad.getPais());
+			ciudadActual.setPais(paisService.findById(ciudad.getPais().getId()));
 			ciudadUpdated = principalService.save(ciudadActual);
 		} catch(DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

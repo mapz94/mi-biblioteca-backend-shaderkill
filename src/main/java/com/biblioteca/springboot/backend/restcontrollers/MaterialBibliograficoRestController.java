@@ -32,6 +32,7 @@ import com.biblioteca.springboot.backend.models.entity.DBFiles;
 import com.biblioteca.springboot.backend.models.entity.MaterialBibliografico;
 import com.biblioteca.springboot.backend.models.entity.Prestamo;
 import com.biblioteca.springboot.backend.models.services.IUploadFileService;
+import com.biblioteca.springboot.backend.models.services.ICategoriaService;
 import com.biblioteca.springboot.backend.models.services.IMaterialBibliograficoService;
 import com.biblioteca.springboot.backend.models.services.IPrestamoService;
 import com.biblioteca.springboot.backend.models.services.ISocioService;
@@ -53,6 +54,9 @@ public class MaterialBibliograficoRestController {
 	
 	@Autowired
 	private IPrestamoService prestamoService;
+	
+	@Autowired
+	private ICategoriaService categoriaService;
 	
 	@GetMapping({"","/"})
 	public List<MaterialBibliografico> index() {
@@ -80,6 +84,7 @@ public class MaterialBibliograficoRestController {
 		MaterialBibliografico objectCreated = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
+			objectRefered.setCategoria(categoriaService.findById(objectRefered.getCategoria().getId()));
 			objectCreated = principalService.save(objectRefered);
 			
 		} catch(DataAccessException e) {
@@ -123,7 +128,7 @@ public class MaterialBibliograficoRestController {
 		}
 		try {			
 			materialActual.setTitulo(materialBibliografico.getTitulo());
-			materialActual.setCategoria(materialBibliografico.getCategoria());
+			materialActual.setCategoria(categoriaService.findById(materialBibliografico.getCategoria().getId()));
 			materialActual.setFechaPublicacion(materialBibliografico.getFechaPublicacion());
 			materialActual.setDescripcion(materialBibliografico.getDescripcion());
 			materialUpdated = principalService.save(materialActual);

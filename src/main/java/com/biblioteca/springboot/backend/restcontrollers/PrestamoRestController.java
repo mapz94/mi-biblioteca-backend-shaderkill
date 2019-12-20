@@ -31,6 +31,7 @@ import com.biblioteca.springboot.backend.models.entity.Socio;
 import com.biblioteca.springboot.backend.models.services.IPrestamoService;
 import com.biblioteca.springboot.backend.models.services.ISocioService;
 import com.biblioteca.springboot.backend.models.services.IEstadoMultaService;
+import com.biblioteca.springboot.backend.models.services.IEstadoPrestamoService;
 import com.biblioteca.springboot.backend.models.services.IMaterialBibliograficoService;
 
 
@@ -52,8 +53,8 @@ public class PrestamoRestController {
 	@Autowired
 	private IMaterialBibliograficoService materialService;
 	
-	
-	
+	@Autowired
+	private IEstadoPrestamoService estadoPrestamoService;
 	
 	@GetMapping({"","/"})  
 	public List<Prestamo> index() {
@@ -109,6 +110,7 @@ public class PrestamoRestController {
 			objectRefered.setFechaPrestamo(now.getTime());
 			now.add(Calendar.DATE, 7);
 			objectRefered.setFechaVencimiento(now.getTime());
+			objectRefered.setEstadoPrestamo(estadoPrestamoService.findById((long) 1));
 			objectCreated = principalService.save(objectRefered);
 
 		} catch(DataAccessException e) {
@@ -129,6 +131,7 @@ public class PrestamoRestController {
 		try {
 			Calendar now = Calendar.getInstance();
 			prestamoActual.setFechaEntrega(now.getTime());
+			prestamoActual.setEstadoPrestamo(estadoPrestamoService.findById((long)2));
 			principalService.save(prestamoActual);
 			response.put("data",prestamoActual.getFechaEntrega());
 		}
@@ -161,8 +164,7 @@ public class PrestamoRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		response.put("data", prestamoUpdated);
-		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
-		
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);	
 	}
 	
 	@DeleteMapping({"/{id}","/{id}/"})

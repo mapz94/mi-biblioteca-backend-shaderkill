@@ -1,5 +1,6 @@
 package com.biblioteca.springboot.backend.restcontrollers;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.biblioteca.springboot.backend.GlobalMessage;
 import com.biblioteca.springboot.backend.models.entity.Multa;
+import com.biblioteca.springboot.backend.models.entity.Prestamo;
 import com.biblioteca.springboot.backend.models.services.IEstadoMultaService;
+import com.biblioteca.springboot.backend.models.services.IEstadoPrestamoService;
 import com.biblioteca.springboot.backend.models.services.IMultaService;
 import com.biblioteca.springboot.backend.models.services.IPrestamoService;
 
@@ -43,11 +46,44 @@ public class MultaRestController {
 	@Autowired
 	private IEstadoMultaService estadoMultaService;
 	
+	@Autowired
+	private IEstadoPrestamoService estadoPrestamoService;
+	
 	
 	@GetMapping({"","/"})
 	public List<Multa> index() {
 		return principalService.findAll();
 	}
+	
+	@GetMapping({"/generar","/generar/"})
+	public ResponseEntity<?> generar() {
+		ArrayList<Multa> multas = new ArrayList<Multa>();
+		Map<String, Object> response = new HashMap<>();
+		try {
+			List<Prestamo> prestamos = prestamoService.findAll();
+			for (int i = 0; i < prestamos.size(); i++) {
+				Prestamo prestamo = prestamos.get(i);
+				if (prestamo.getEstadoPrestamo().getId() == (long) 1) {
+					if(prestamo.getFechaVencimiento().compareTo(Calendar.getInstance().getTime()) < 0) {
+						Multa multa = new Multa();
+						multa.setPrestamo(prestamo);
+						multa.setMonto(2000);
+						Long estado = (long) 1;
+						multa.setEstadoMulta(estadoMultaService.findById(estado));
+						Multa multaCreated = principalService.save(multa);				
+						multas.add(multaCreated);
+					}
+				}
+			}
+			
+		} catch(DataAccessException e) {
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		return new ResponseEntity<List<Multa>>(multas, HttpStatus.OK);
+	}
+	
 	
 	@GetMapping({"/{id}","/{id}/"})
 	public ResponseEntity<?> show(@PathVariable Long id) { 
@@ -116,6 +152,7 @@ public class MultaRestController {
 			objectCreated.setFechaCancelacion(now.getTime());
 			Long estado = (long) 2;
 			objectCreated.setEstadoMulta(estadoMultaService.findById(estado));
+			objectCreated.getPrestamo().setEstadoPrestamo(estadoPrestamoService.findById((long)2));
 			Multa multa = principalService.save(objectCreated);
 			response.put("multa", multa);
 		} catch(DataAccessException e) {

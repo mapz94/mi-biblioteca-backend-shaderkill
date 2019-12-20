@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.biblioteca.springboot.backend.GlobalMessage;
 import com.biblioteca.springboot.backend.models.entity.Biblioteca;
 import com.biblioteca.springboot.backend.models.services.IBibliotecaService;
+import com.biblioteca.springboot.backend.models.services.ICiudadService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
@@ -32,6 +33,9 @@ public class BibliotecaRestController {
 	
 	@Autowired
 	private IBibliotecaService principalService;
+	
+	@Autowired
+	private ICiudadService ciudadService;
 	
 	
 	@GetMapping({"","/"})
@@ -72,7 +76,7 @@ public class BibliotecaRestController {
 	}
 	
 	
-	@PutMapping({"/{id}","/{id}/"})
+	@PutMapping({"/{id}","/{id}/"}) 
 	public ResponseEntity<?> update(@RequestBody Biblioteca biblioteca, @PathVariable Long id) {
 		Biblioteca bibliotecaActual = principalService.findById(id);
 		Biblioteca bibliotecaUpdated = null;
@@ -83,7 +87,7 @@ public class BibliotecaRestController {
 		try {		
 			bibliotecaActual.setNombre(biblioteca.getNombre());
 			bibliotecaActual.setDireccion(biblioteca.getDireccion());
-			bibliotecaActual.setCiudad(biblioteca.getCiudad());
+			bibliotecaActual.setCiudad(ciudadService.findById(biblioteca.getCiudad().getId()));
 			bibliotecaUpdated = principalService.save(bibliotecaActual);
 		} catch(DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
