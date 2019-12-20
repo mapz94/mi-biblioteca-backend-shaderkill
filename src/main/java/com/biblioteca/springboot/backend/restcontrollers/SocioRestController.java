@@ -1,6 +1,7 @@
 package com.biblioteca.springboot.backend.restcontrollers;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -107,9 +108,12 @@ public class SocioRestController {
 			socioSearch = socioService.findById(id);
 			if (socioSearch != null) {
 				List<Prestamo> prestamos = prestamoService.findBySocio(socioSearch);
-				List<Multa> multas = null;
+				ArrayList<Multa> multas = new ArrayList<Multa>();
 				for(int i = 0; i < prestamos.size(); i++) {
-					multas.add(multaService.findByPrestamo(prestamos.get(i)));
+					Multa multa = (multaService.findByPrestamo(prestamos.get(i)));
+					if(multa.getEstadoMulta().equals(estadoMultaService.findById((long) 1))) {
+						multas.add(multa);
+					}
 				}
 				response.put("multas",multas);
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
