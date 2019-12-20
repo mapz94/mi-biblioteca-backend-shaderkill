@@ -104,7 +104,8 @@ public class PrestamoRestController {
 	}
 	
 	@PostMapping({"/","" })
-	public ResponseEntity<?> create(@RequestBody Prestamo objectRefered,@RequestParam Long socioId, @RequestParam Long materialId ) {
+	public ResponseEntity<?> create(@RequestParam Long socioId, @RequestParam Long materialId ) {
+		Prestamo objectRefered = new Prestamo();
 		Prestamo objectCreated = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
@@ -122,6 +123,28 @@ public class PrestamoRestController {
 		}
 		response.put("data", objectCreated );
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
+	}
+	
+	@PostMapping({"/entrega/{id}","/entrega/{id}/" })
+	public ResponseEntity<?> entrega(@PathVariable Long id ) {
+		Prestamo prestamoActual = principalService.findById(id);
+		Prestamo prestamoUpdated = null;
+		Map<String, Object> response = new HashMap<>();
+		if ( prestamoActual == null ) {
+			return GlobalMessage.notFound();
+		}
+		try {
+			Calendar now = Calendar.getInstance();
+			prestamoActual.setFechaEntrega(now.getTime());
+			prestamoUpdated = principalService.save(prestamoActual);
+			response.put("data",prestamoActual.getFechaEntrega());
+			
+		}
+		catch(DataAccessException e) {
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 	}
 	
 	
