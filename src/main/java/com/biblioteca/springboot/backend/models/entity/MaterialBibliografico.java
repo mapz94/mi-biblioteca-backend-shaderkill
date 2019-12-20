@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 @Entity
@@ -30,6 +31,11 @@ public class MaterialBibliografico implements Serializable {
 
 	@Column(name = "img_biblio", nullable = true)
 	private String imgBiblio;
+	
+	@Lob
+	@Column(name = "descripcion", nullable = true)
+	private String descripcion;
+
 
 	public Long getId() {
 		return id;
@@ -71,5 +77,13 @@ public class MaterialBibliografico implements Serializable {
 		this.imgBiblio = imgBiblio;
 	}
 
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+	
 	private static final long serialVersionUID = 1L;
 }

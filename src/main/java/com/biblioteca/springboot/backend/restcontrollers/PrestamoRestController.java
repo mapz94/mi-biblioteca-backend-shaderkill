@@ -18,12 +18,21 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
 import com.biblioteca.springboot.backend.GlobalMessage;
+import com.biblioteca.springboot.backend.models.entity.EstadoMulta;
+import com.biblioteca.springboot.backend.models.entity.MaterialBibliografico;
+import com.biblioteca.springboot.backend.models.entity.Multa;
 import com.biblioteca.springboot.backend.models.entity.Prestamo;
+import com.biblioteca.springboot.backend.models.entity.Socio;
 import com.biblioteca.springboot.backend.models.services.IPrestamoService;
+import com.biblioteca.springboot.backend.models.services.ISocioService;
+import com.biblioteca.springboot.backend.models.services.IEstadoMultaService;
+import com.biblioteca.springboot.backend.models.services.IMaterialBibliograficoService;
+
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
@@ -34,12 +43,21 @@ public class PrestamoRestController {
 	@Autowired
 	private IPrestamoService principalService;
 	
+	/*@Autowired
+	private IEstadoMultaService estadoMultaService;*/
 	
-	@GetMapping({"","/"})
+	@Autowired
+	private ISocioService socioService;
+	
+	@Autowired
+	private IMaterialBibliograficoService materialService;
+	
+	
+	@GetMapping({"","/"})  
 	public List<Prestamo> index() {
 		return principalService.findAll();
 	}
-	
+	 
 	@GetMapping({"/{id}/isDue","/{id}/isDue/"})
 	public ResponseEntity<?> isDue(@PathVariable Long id) {
 		Prestamo objectSearch = null;
@@ -48,7 +66,15 @@ public class PrestamoRestController {
 			objectSearch = principalService.findById(id);
 			if(objectSearch.getFechaVencimiento().compareTo(Calendar.getInstance().getTime()) < 0){
 				response.put("isDue", true );
-				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK); 
+				/*Socio socio = socioService.findById(objectSearch.getId());
+				
+				Multa multaActual = new Multa();
+				multaActual.setPrestamo(objectSearch);
+				multaActual.setMonto(2000);
+				Long estado = (long) 1;
+				multaActual.setEstadoMulta(estadoMultaService.findById(estado));
+				multaActual.setFechaCancelacion(); */
+				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 			}
 			else {
 				response.put("isDue", false );
@@ -78,10 +104,12 @@ public class PrestamoRestController {
 	}
 	
 	@PostMapping({"/","" })
-	public ResponseEntity<?> create(@RequestBody Prestamo objectRefered) {
+	public ResponseEntity<?> create(@RequestBody Prestamo objectRefered,@RequestParam Long socioId, @RequestParam Long materialId ) {
 		Prestamo objectCreated = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
+			objectRefered.setSocio(socioService.findById(socioId));
+			objectRefered.setMaterialBibliografico(materialService.findById(materialId));
 			Calendar now = Calendar.getInstance();
 			objectRefered.setFechaPrestamo(now.getTime());
 			now.add(Calendar.DATE, 7);

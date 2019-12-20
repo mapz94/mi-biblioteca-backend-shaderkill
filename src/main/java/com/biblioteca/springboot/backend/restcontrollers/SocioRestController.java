@@ -29,8 +29,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.biblioteca.springboot.backend.GlobalMessage;
 import com.biblioteca.springboot.backend.models.entity.DBFiles;
+import com.biblioteca.springboot.backend.models.entity.Prestamo;
 import com.biblioteca.springboot.backend.models.entity.Socio;
 import com.biblioteca.springboot.backend.models.services.IUploadFileService;
+import com.biblioteca.springboot.backend.models.services.IPrestamoService;
 import com.biblioteca.springboot.backend.models.services.ISocioService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*") 
@@ -41,6 +43,9 @@ public class SocioRestController {
 
 	@Autowired
 	private ISocioService socioService;
+	
+	@Autowired
+	private IPrestamoService prestamoService;
 
 	@Autowired
 	private IUploadFileService uploadService;
@@ -58,6 +63,25 @@ public class SocioRestController {
 			socioSearch = socioService.findById(id);
 			if (socioSearch != null) 
 				return new ResponseEntity<Socio>(socioSearch, HttpStatus.OK);
+			else
+				return GlobalMessage.notFound();				
+		} catch (DataAccessException e) {
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+	}
+	
+	@GetMapping({ "/{id}/prestamos", "/{id}/prestamos/" })
+	public ResponseEntity<?> getPrestamos(@PathVariable Long id) {
+		Socio socioSearch = null;
+		Map<String, Object> response = new HashMap<>();
+		try {
+			socioSearch = socioService.findById(id);
+			if (socioSearch != null) {
+				List<Prestamo> prestamos = prestamoService.findBySocio(socioSearch);
+				response.put("data", prestamos);
+				return new ResponseEntity<Map<String, Object>>(response ,HttpStatus.CREATED);
+			}
 			else
 				return GlobalMessage.notFound();				
 		} catch (DataAccessException e) {

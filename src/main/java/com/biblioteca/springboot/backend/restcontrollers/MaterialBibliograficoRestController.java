@@ -1,6 +1,7 @@
 package com.biblioteca.springboot.backend.restcontrollers;
 
 import java.io.FileNotFoundException;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,8 +30,11 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.biblioteca.springboot.backend.GlobalMessage;
 import com.biblioteca.springboot.backend.models.entity.DBFiles;
 import com.biblioteca.springboot.backend.models.entity.MaterialBibliografico;
+import com.biblioteca.springboot.backend.models.entity.Prestamo;
 import com.biblioteca.springboot.backend.models.services.IUploadFileService;
 import com.biblioteca.springboot.backend.models.services.IMaterialBibliograficoService;
+import com.biblioteca.springboot.backend.models.services.IPrestamoService;
+import com.biblioteca.springboot.backend.models.services.ISocioService;
 
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 // @CrossOrigin(origins = {"http://localhost:4200"})
@@ -43,6 +47,12 @@ public class MaterialBibliograficoRestController {
 	
 	@Autowired
 	private IUploadFileService uploadService;
+	
+	@Autowired
+	private ISocioService socioService;
+	
+	@Autowired
+	private IPrestamoService prestamoService;
 	
 	@GetMapping({"","/"})
 	public List<MaterialBibliografico> index() {
@@ -81,7 +91,28 @@ public class MaterialBibliograficoRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	 
+	@PostMapping({"/{id}/user/{socioId}"})
+	public ResponseEntity<?> createPrestamo(@PathVariable Long id, @PathVariable Long socioId ) {
+		Prestamo objectRefered = new Prestamo();
+		Prestamo objectCreated = null;
+		Map<String, Object> response = new HashMap<>();
+		try {
+			objectRefered.setSocio(socioService.findById(socioId));
+			objectRefered.setMaterialBibliografico(principalService.findById(id));
+			Calendar now = Calendar.getInstance();
+			objectRefered.setFechaPrestamo(now.getTime());
+			now.add(Calendar.DATE, 7);
+			objectRefered.setFechaVencimiento(now.getTime());
+			objectCreated = prestamoService.save(objectRefered);
+
+		} catch(DataAccessException e) {
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		response.put("data", objectCreated );
+		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);	
+	}
+	
 	@PutMapping({"/{id}","/{id}/"})
 	public ResponseEntity<?> update(@RequestBody MaterialBibliografico materialBibliografico, @PathVariable Long id) {
 		MaterialBibliografico materialActual = principalService.findById(id);
@@ -94,6 +125,7 @@ public class MaterialBibliograficoRestController {
 			materialActual.setTitulo(materialBibliografico.getTitulo());
 			materialActual.setCategoria(materialBibliografico.getCategoria());
 			materialActual.setFechaPublicacion(materialBibliografico.getFechaPublicacion());
+			materialActual.setDescripcion(materialBibliografico.getDescripcion());
 			materialUpdated = principalService.save(materialActual);
 		} catch(DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -132,7 +164,6 @@ public class MaterialBibliograficoRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
-		
 	}
 	
 	@GetMapping("/download/{id}")

@@ -20,10 +20,10 @@ public class Prestamo implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable=false)
+	@Column(nullable=true)
 	private Socio socio;
 
-	@Column(nullable=false,name="material_bibliografico")
+	@Column(nullable=true,name="material_bibliografico")
 	private MaterialBibliografico materialBibliografico;
 
 	@Column(nullable=true, name="fecha_prestamo")

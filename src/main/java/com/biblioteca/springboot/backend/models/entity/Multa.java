@@ -33,6 +33,7 @@ public class Multa implements Serializable {
 	@Column(nullable=false, name="fecha_cancelacion")
 	private Calendar fechaCancelacion;
 	
+	
 	public Long getId() {
 		return id;
 	}
