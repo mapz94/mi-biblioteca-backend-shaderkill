@@ -30,8 +30,10 @@ public class Multa implements Serializable {
 	@Column(nullable=false)
 	private long monto;
 
-	@OneToOne (cascade=CascadeType.ALL)
-	@JoinColumn(name="estado_multa", referencedColumnName = "id", unique= true, nullable=true, insertable=true, updatable=true)
+	/*@OneToOne (cascade=CascadeType.ALL)
+	@JoinColumn(name="estado_multa", referencedColumnName = "id", 
+	unique= true, nullable=true, insertable=true, updatable=true)*/
+	@Column(nullable = false)
 	private EstadoMulta estadoMulta;
 
 	@Column(nullable=true, name="fecha_cancelacion")
