@@ -14,6 +14,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "libros")
 public class Libro implements Serializable {
@@ -32,6 +34,7 @@ public class Libro implements Serializable {
 	@Column(nullable = false)
 	private String autor;
 
+	@JsonIgnoreProperties("libro")
 	@OneToOne( optional = true, fetch = FetchType.LAZY, orphanRemoval= true)
     @JoinTable(name = "materialbibliografico_libro", 
       joinColumns = 

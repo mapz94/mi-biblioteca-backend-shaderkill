@@ -14,6 +14,8 @@ import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "materialbibliografico")
 public class MaterialBibliografico implements Serializable {
@@ -32,12 +34,15 @@ public class MaterialBibliografico implements Serializable {
 	@Column(nullable = true, name = "fecha_publicacion")
 	private Date fechaPublicacion;
 	
+	@JsonIgnoreProperties("materialBibliografico")
 	@OneToOne(mappedBy = "materialBibliografico",cascade = CascadeType.PERSIST)
 	private Libro libro;
 	
+	@JsonIgnoreProperties("materialBibliografico")
 	@OneToOne(mappedBy = "materialBibliografico",cascade = CascadeType.PERSIST)
 	private Revista revista;
 	
+	@JsonIgnoreProperties("materialBibliografico")
 	@OneToOne(mappedBy = "materialBibliografico",cascade = CascadeType.PERSIST)
 	private Proyecto proyecto;
 	

@@ -3,11 +3,14 @@ package com.biblioteca.springboot.backend.models.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /* Clase Usuario, debe coincidir los atributos en el backend y frontend. 
@@ -27,7 +30,8 @@ public class Multa implements Serializable {
 	@Column(nullable=false)
 	private long monto;
 
-	@Column(nullable=false, name="estado_multa")
+	@OneToOne (cascade=CascadeType.ALL)
+	@JoinColumn(name="estado_multa", referencedColumnName = "id", unique= true, nullable=true, insertable=true, updatable=true)
 	private EstadoMulta estadoMulta;
 
 	@Column(nullable=true, name="fecha_cancelacion")
