@@ -66,6 +66,25 @@ public class MultaRestController {
 		return new ResponseEntity<Multa>(objectSearch, HttpStatus.OK);
 	}
 	
+	@GetMapping({"/{id}/multas","/{id}/multas/"})
+	public ResponseEntity<?> getPrestamos(@PathVariable Long idPrestamo) {
+		Multa multas = null;
+		Map<String, Object> response = new HashMap<>();
+		try { 
+			
+			multas = principalService.findByPrestamo(prestamoService.findById(idPrestamo));
+		} catch(DataAccessException e) {
+			response.put("mensaje", "Error al realizar la busqueda en la base de datos.");
+			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		if ( multas == null ) {
+			return GlobalMessage.notFound();
+		}
+		return new ResponseEntity<Multa>(multas, HttpStatus.OK);
+	}
+	
+	
 	@PostMapping({"/","" })
 	public ResponseEntity<?> create(@RequestParam Long prestamo) {
 		Multa objectCreated = new Multa();
