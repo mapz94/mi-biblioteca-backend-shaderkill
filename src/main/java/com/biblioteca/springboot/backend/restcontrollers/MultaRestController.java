@@ -87,12 +87,12 @@ public class MultaRestController {
 		return new ResponseEntity<Map<String, Object>>(response, HttpStatus.CREATED);
 	}
 	
-	@PostMapping({"/","" })
-	public ResponseEntity<?> cancelaMulta(@RequestParam Long prestamo) {
-		Multa objectCreated = new Multa();
+	@PostMapping({"/cancela/{id}","/cancela/{id}/" })
+	public ResponseEntity<?> cancelaMulta(@PathVariable Long id) {
+		Multa objectCreated = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
-			objectCreated.setPrestamo(prestamoService.findById(prestamo));
+			objectCreated = principalService.findById(id);
 			Calendar now = Calendar.getInstance();
 			objectCreated.setFechaCancelacion(now.getTime());
 			Multa multa = principalService.save(objectCreated);
