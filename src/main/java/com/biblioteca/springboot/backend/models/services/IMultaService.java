@@ -8,8 +8,6 @@ public interface IMultaService {
 	
 	public List<Multa> findAll();
 	
-	public List<Multa> findBySocio(Socio socio);
-	
 	public Multa findById(Long id);
 	
 	public Multa save(Multa multa);

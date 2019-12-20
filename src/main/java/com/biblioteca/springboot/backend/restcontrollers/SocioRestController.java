@@ -94,7 +94,7 @@ public class SocioRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
-	
+	/*
 	@GetMapping({ "/{id}/multas", "/{id}/multas/" })
 	public ResponseEntity<?> getMultas(@PathVariable Long id) {
 		Socio socioSearch = null;
@@ -113,7 +113,7 @@ public class SocioRestController {
 			return new ResponseEntity<Map<String, Object>>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 
-	}
+	}*/
 
 	@PostMapping({ "/", "" })
 	public ResponseEntity<?> create(@RequestBody Socio socio) {

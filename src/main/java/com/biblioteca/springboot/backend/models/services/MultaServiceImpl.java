@@ -45,9 +45,5 @@ public class MultaServiceImpl implements IMultaService {
 		multaDao.deleteById(id);
 	}
 
-	@Override
-	public List<Multa> findBySocio(Socio socio) {
-		return multaDao.findBySocio(socio);
-	}
 	
 }
