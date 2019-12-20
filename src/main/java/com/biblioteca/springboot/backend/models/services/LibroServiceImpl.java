@@ -30,7 +30,6 @@ public class LibroServiceImpl implements ILibroService {
 	}
 
 	@Override
-	@Transactional
 	public Libro save(Libro libro) {
 		return libroDao.save(libro);
 	}

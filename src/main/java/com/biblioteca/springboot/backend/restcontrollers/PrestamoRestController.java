@@ -68,14 +68,6 @@ public class PrestamoRestController {
 			objectSearch = principalService.findById(id);
 			if(objectSearch.getFechaVencimiento().compareTo(Calendar.getInstance().getTime()) < 0){
 				response.put("isDue", true );
-				/*Socio socio = socioService.findById(objectSearch.getId());
-				
-				Multa multaActual = new Multa();
-				multaActual.setPrestamo(objectSearch);
-				multaActual.setMonto(2000);
-				Long estado = (long) 1;
-				multaActual.setEstadoMulta(estadoMultaService.findById(estado));
-				multaActual.setFechaCancelacion(); */
 				return new ResponseEntity<Map<String, Object>>(response, HttpStatus.OK);
 			}
 			else {

@@ -50,7 +50,7 @@ public class MultaRestController {
 	}
 	
 	@GetMapping({"/{id}","/{id}/"})
-	public ResponseEntity<?> show(@PathVariable Long id) {
+	public ResponseEntity<?> show(@PathVariable Long id) { 
 		Multa objectSearch = null;
 		Map<String, Object> response = new HashMap<>();
 		try { 

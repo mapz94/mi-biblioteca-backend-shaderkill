@@ -31,7 +31,6 @@ public class RevistaServiceImpl implements IRevistaService {
 	}
 
 	@Override
-	@Transactional
 	public Revista save(Revista revista) {
 		
 		return revistaDao.save(revista);

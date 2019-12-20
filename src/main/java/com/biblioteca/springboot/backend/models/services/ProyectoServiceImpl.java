@@ -31,7 +31,6 @@ public class ProyectoServiceImpl implements IProyectoService {
 	}
 
 	@Override
-	@Transactional
 	public Proyecto save(Proyecto proyecto) {
 		
 		return proyectoDao.save(proyecto);
