@@ -34,7 +34,7 @@ public class Socio implements Serializable {
 	@Column(nullable=false)
 	private Biblioteca biblioteca;
 
-	@OneToOne (cascade=CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name="Persona_id")
 	//@Column(nullable = false)
 	private Persona persona;
