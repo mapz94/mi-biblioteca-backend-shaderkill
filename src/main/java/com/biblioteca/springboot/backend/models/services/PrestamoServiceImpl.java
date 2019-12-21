@@ -42,6 +42,7 @@ public class PrestamoServiceImpl implements IPrestamoService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Prestamo> findBySocio(Socio socio) {
 		return prestamoDao.findBySocio(socio);
 	}
