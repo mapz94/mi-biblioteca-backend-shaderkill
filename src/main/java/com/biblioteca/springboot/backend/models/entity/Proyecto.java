@@ -28,13 +28,17 @@ public class Proyecto implements Serializable {
 	@Column(nullable = false)
 	private String autor;
 
+	/*
 	@JsonIgnoreProperties("proyecto")
 	@OneToOne( optional = true, fetch = FetchType.LAZY, orphanRemoval= true)
     @JoinTable(name = "materialbibliografico_proyecto", 
       joinColumns = 
         { @JoinColumn(name = "proyecto_id", referencedColumnName = "id") },
       inverseJoinColumns = 
-        { @JoinColumn(name = "materialbibliografico_id", referencedColumnName = "id") })
+        { @JoinColumn(name = "materialbibliografico_id", referencedColumnName = "id") })*/
+	
+	@OneToOne
+	@JoinColumn(name="materialBibliografico_id")
 	private MaterialBibliografico materialBibliografico;
 
 	public Long getId() {

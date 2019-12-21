@@ -27,7 +27,8 @@ public class Prestamo implements Serializable {
 	@Column(nullable=true)
 	private Socio socio;
 
-	@Column(nullable=true,name="material_bibliografico")
+	@OneToOne
+	@JoinColumn(name="materialBibliografico_id")
 	private MaterialBibliografico materialBibliografico;
 
 	@Column(nullable=true, name="fecha_prestamo")
@@ -39,14 +40,10 @@ public class Prestamo implements Serializable {
 	@Column(nullable=true, name="fecha_entrega")
 	private Date fechaEntrega;
 	
-	@OneToOne (cascade=CascadeType.ALL)
-	@JoinColumn(name="estado_multa", referencedColumnName = "id", unique= true, nullable=true, insertable=true, updatable=true)
+	@OneToOne
+	@JoinColumn(name="estadoPrestamo_id")
 	private EstadoPrestamo estadoPrestamo;
-	
 
-	@Column(nullable=true)
-	private Prestamo prestamo;
-	
 
 	public Long getId() {
 		return id;
@@ -114,16 +111,6 @@ public class Prestamo implements Serializable {
 
 	public void setEstadoPrestamo(EstadoPrestamo estadoPrestamo) {
 		this.estadoPrestamo = estadoPrestamo;
-	}
-
-
-	public Prestamo getPrestamo() {
-		return prestamo;
-	}
-
-
-	public void setPrestamo(Prestamo prestamo) {
-		this.prestamo = prestamo;
 	}
 
 

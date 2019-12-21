@@ -17,16 +17,18 @@ import javax.persistence.Table;
  * Especificar si es una entidad y la tabla a la cual va asociada en minusculas y plural.*/
 @Entity
 @Table(name="multas")
-public class Multa implements Serializable {
+public class Multa implements Serializable { 
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id", unique = true)
 	private Long id;
 
-	@Column(nullable=false)
+	
+	@OneToOne
+	@JoinColumn(name="prestamo_id")
+	//@Column(nullable=false)
 	private Prestamo prestamo;
-
 
 	@Column(nullable=false)
 	private long monto;
@@ -34,7 +36,10 @@ public class Multa implements Serializable {
 	/*@OneToOne (cascade=CascadeType.ALL)
 	@JoinColumn(name="estado_multa", referencedColumnName = "id", 
 	unique= true, nullable=true, insertable=true, updatable=true)*/
-	@Column(nullable = false)
+	
+	@OneToOne
+	@JoinColumn(name="estadoMulta_id")
+	//@Column(nullable = false)
 	private EstadoMulta estadoMulta;
 
 	@Column(nullable=true, name="fecha_cancelacion")

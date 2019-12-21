@@ -157,7 +157,6 @@ public class PrestamoRestController {
 			prestamoActual.setFechaPrestamo(prestamo.getFechaPrestamo());
 			prestamoActual.setFechaVencimiento(prestamo.getFechaVencimiento());
 			prestamoActual.setFechaEntrega(prestamo.getFechaEntrega());
-			prestamoActual.setPrestamo(prestamo.getPrestamo());
 			prestamoUpdated = principalService.save(prestamoActual);
 		} catch(DataAccessException e) {
 			response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

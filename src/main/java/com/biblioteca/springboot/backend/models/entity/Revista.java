@@ -28,13 +28,16 @@ public class Revista implements Serializable {
 	@Column(nullable = false)
 	private String proveedor;
 
-	@JsonIgnoreProperties("revista")
+	/*@JsonIgnoreProperties("revista")
 	@OneToOne( optional = true, fetch = FetchType.LAZY, orphanRemoval= true)
     @JoinTable(name = "materialbibliografico_revista", 
       joinColumns = 
         { @JoinColumn(name = "revista_id", referencedColumnName = "id") },
       inverseJoinColumns = 
-        { @JoinColumn(name = "materialbibliografico_id", referencedColumnName = "id") })
+        { @JoinColumn(name = "materialbibliografico_id", referencedColumnName = "id") })*/
+	
+	@OneToOne
+	@JoinColumn(name="materialBibliografico_id")
 	private MaterialBibliografico materialBibliografico;
 
 	public Long getId() {

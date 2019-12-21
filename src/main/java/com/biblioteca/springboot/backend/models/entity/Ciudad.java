@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /* Clase Usuario, debe coincidir los atributos en el backend y frontend. 
@@ -22,7 +24,9 @@ public class Ciudad implements Serializable {
 
 	private String nombre;
 
-	@Column(nullable=false)
+	@OneToOne
+	@JoinColumn(name="pais_id")
+	//Column(nullable=false)
 	private Pais pais;
 
 	public Long getId() {

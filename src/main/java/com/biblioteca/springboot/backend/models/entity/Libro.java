@@ -34,13 +34,17 @@ public class Libro implements Serializable {
 	@Column(nullable = false)
 	private String autor;
 
-	@JsonIgnoreProperties("libro")
+	
+	/*@JsonIgnoreProperties("libro")
 	@OneToOne( optional = true, fetch = FetchType.LAZY, orphanRemoval= true)
     @JoinTable(name = "materialbibliografico_libro", 
       joinColumns = 
         { @JoinColumn(name = "libro_id", referencedColumnName = "id") },
       inverseJoinColumns = 
-        { @JoinColumn(name = "materialbibliografico_id", referencedColumnName = "id") })
+        { @JoinColumn(name = "materialbibliografico_id", referencedColumnName = "id") })*/
+	
+	@OneToOne
+	@JoinColumn(name="materialBibliografico_id")
 	private MaterialBibliografico materialBibliografico;
 
 	public void setId(Long id) {

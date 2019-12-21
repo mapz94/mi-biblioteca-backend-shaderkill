@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -28,12 +29,16 @@ public class MaterialBibliografico implements Serializable {
 	@Column(name = "titulo", nullable = false)
 	private String titulo;
 
-	@Column(nullable = true)
+	@OneToOne
+	@JoinColumn(name="categoria_id")
+	//@Column(nullable = true)
 	private Categoria categoria;
 
 	@Column(nullable = true, name = "fecha_publicacion")
 	private Date fechaPublicacion;
 	
+	
+	/*
 	@JsonIgnoreProperties("materialBibliografico")
 	@OneToOne(mappedBy = "materialBibliografico",cascade = CascadeType.PERSIST)
 	private Libro libro;
@@ -44,7 +49,7 @@ public class MaterialBibliografico implements Serializable {
 	
 	@JsonIgnoreProperties("materialBibliografico")
 	@OneToOne(mappedBy = "materialBibliografico",cascade = CascadeType.PERSIST)
-	private Proyecto proyecto;
+	private Proyecto proyecto;*/
 	
 
 	@Column(name = "img_biblio", nullable = true)
@@ -103,7 +108,7 @@ public class MaterialBibliografico implements Serializable {
 		this.descripcion = descripcion;
 		
 	}
-	
+	/*
 	public Libro getLibro() {
 		return libro;
 	}
@@ -126,7 +131,7 @@ public class MaterialBibliografico implements Serializable {
 
 	public void setProyecto(Proyecto proyecto) {
 		this.proyecto = proyecto;
-	}
+	}*/
 	
 	private static final long serialVersionUID = 1L;
 }
