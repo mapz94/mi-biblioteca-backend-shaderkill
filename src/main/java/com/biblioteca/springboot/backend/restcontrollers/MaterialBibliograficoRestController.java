@@ -84,7 +84,7 @@ public class MaterialBibliograficoRestController {
 		MaterialBibliografico objectCreated = null;
 		Map<String, Object> response = new HashMap<>();
 		try {
-			objectRefered.setCategoria(categoriaService.findById(objectRefered.getCategoria().getId()));
+			//objectRefered.setCategoria(categoriaService.findById(objectRefered.getCategoria().getId()));
 			objectCreated = principalService.save(objectRefered);
 			
 		} catch(DataAccessException e) {
